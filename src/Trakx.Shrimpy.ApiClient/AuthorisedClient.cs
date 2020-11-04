@@ -1,24 +1,17 @@
 ﻿using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using Trakx.Shrimpy.ApiClient.Utils;
 
 namespace Trakx.Shrimpy.ApiClient
 {
     internal abstract class AuthorisedClient : FavouriteExchangesClient
     {
-        private string ApiKey => ApiConfiguration!.ApiKey;
+        protected readonly ICredentialsProvider CredentialProvider;
+        protected string BaseUrl { get; }
 
         protected AuthorisedClient(ClientConfigurator clientConfigurator) : base(clientConfigurator)
         {
-            var credentialProvider = new ApiKeyCredentialsProvider();
+            CredentialProvider = clientConfigurator.GetCredentialProvider(GetType());
+            BaseUrl = clientConfigurator.ApiConfiguration.BaseUrl;
         }
-
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-        {
-            AddA
-        }
-
-        
     }
 }

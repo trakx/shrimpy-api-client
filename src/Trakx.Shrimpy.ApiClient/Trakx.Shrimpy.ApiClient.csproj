@@ -9,6 +9,11 @@
   <Import Project="../Packable.Projects.props" />
 
   <ItemGroup>
+    <None Include="ApiClients.Partials.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ApiClients.Partials.tt</DependentUpon>
+    </None>
     <None Include="ClientRegistrations.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -28,6 +33,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="ApiClients.Partials.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ApiClients.Partials.cs</LastGenOutput>
+    </None>
     <None Update="ClientRegistrations.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ClientRegistrations.cs</LastGenOutput>
@@ -39,6 +48,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="ApiClients.Partials.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ApiClients.Partials.tt</DependentUpon>
+    </Compile>
     <Compile Update="ClientRegistrations.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

@@ -19,10 +19,10 @@ namespace Trakx.Shrimpy.ApiClient.Tests.Integration
         [Fact]
         public async Task GetTicker_should_return_all_tickers()
         {
-            var tickers = await _marketDataClient.GetTickerAsync("binance");
+            var tickers = await _marketDataClient.GetTickerAsync(Exchange.Binance);
             tickers.Result.Count.Should().BeGreaterThan(10);
             var knownSymbols = tickers.Result.Select(t => t.Symbol);
-            _logger.Information(string.Join(",", knownSymbols));
+            Logger.Information(string.Join(",", knownSymbols));
         }
     }
 }

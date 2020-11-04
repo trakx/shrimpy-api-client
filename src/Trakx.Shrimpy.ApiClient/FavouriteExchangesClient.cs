@@ -14,8 +14,8 @@ namespace Trakx.Shrimpy.ApiClient
                 ? ApiConfiguration.FavouriteExchanges!.AsReadOnly()
                 : new List<string>
                 {
-                    "stmp", "btrx", "polo", "krkn", "bfnx", "cbse", 
-                    "itbi", "gmni", "bnce", "bfly", "cflr", "huob"
+                    "bitstamp", "bittrex", "poloniex", "kraken", "bitfinex", "coinbasepro", 
+                    "itbi", "gemini", "binance", "bfly", "cflr", "huobiglobal"
                 }.AsReadOnly();
 
             Top12ExchangeIdsAsCsv = string.Join(",", Top12ExchangeIds);

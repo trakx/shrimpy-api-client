@@ -3,17 +3,21 @@ info:
   title: Shrimpy API
   version: '1.0.0'
 servers:
-  - url: 'https://api.shrimpy.io'
-    description: Shrimpy production base url
+  - url: 'https://dev-api.shrimpy.io'
+    description: Shrimpy development base url
 security:
   - ApiKeyAuth: []
 tags:
-  - name: Accounts
-    description: "Endpoints related to getting details about trading accounts"
+  - name: Trading
+    description: "The Trading endpoints are used to manage a particular exchange account. Certain endpoints require that the user has been enabled and has not expired. To link an exchange account, see the Accounts Endpoints. To enabled a user, see Enabling a User."
+  - name: Users
+    description: "The Users endpoints are used to manage Shrimpy users on behalf of your users. The expectation is that there is a one-to-one relationship between users on your application and users that you have created via this API."
+  - name: Exchanges
+    description: "The Exchanges endpoint provide free access to exchanges information. They do not require credits to be used. API Keys are not required to use Public endpoints. However, requests that do not specify an API key in the header will be rate limited to 10 requests per minute per IP."
   - name: MarketData
     description: "The MarketData endpoint provide free access to market data information. They do not require credits to be used. API Keys are not required to use Public endpoints. However, requests that do not specify an API key in the header will be rate limited to 10 requests per minute per IP."
 paths:
-  "/v1/{exchange}/ticker":
+  "/v1/exchanges/{exchange}/ticker":
     get:
       operationId: GetTicker
       tags: 
@@ -25,7 +29,7 @@ paths:
           description: The identifier of the exchange
           required: true
           schema:
-            $ref: '#/components/schemas/Exchange'
+            type: string
       responses:
         "200":
           description: List of Tickers
@@ -35,12 +39,79 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Ticker'
-  "/v1/accounts":
+  "/v1/list_exchanges":
+    get:
+      operationId: ListExchanges
+      tags: 
+        - Exchanges
+      description: This endpoint retrieves all Shrimpy supported exchanges and some basic information about each.
+      
+      responses:
+        "200":
+          description: List of exchange infos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExchangeInfo'
+      security: 
+      - ApiKeyAuth: []
+  "/v1/users":
+    get:
+      operationId: ListUsers
+      tags: 
+        - Users
+      description: This endpoint retrieves all users that have been created.
+      
+      responses:
+        "200":
+          description: List of Users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+      security: 
+      - ApiKeyAuth: []
+  "/v1/users/{userId}":
+    get:
+      operationId: GetUser
+      tags: 
+        - Users
+      description: This endpoint returns the current status of a user.
+      parameters:
+      - in: path
+        name: userId
+        description: The id of the user to retrieve
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: The requested User.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      security: 
+      - ApiKeyAuth: []
+  "/v1/users/{userId}/accounts":
     get:
       operationId: ListAccounts
       tags: 
-        - Accounts
+        - Users
       description: This endpoint retrieves all linked exchange accounts.
+      parameters:
+      - in: path
+        name: userId
+        description: The id of the user
+        required: true
+        schema:
+          type: string
+          format: uuid
       responses:
         "200":
           description: List of Account owned by a user.
@@ -52,13 +123,20 @@ paths:
                   $ref: '#/components/schemas/Account'
       security: 
       - ApiKeyAuth: []
-  "/v1/accounts/{exchangeAccountId}":
+  "/v1/users/{userId}/accounts/{exchangeAccountId}":
     get:
       operationId: GetAccount
       tags: 
-        - Accounts
+        - Users
       description: This endpoint returns the current status of a linked exchange account.
       parameters:
+      - in: path
+        name: userId
+        description: The id of the user
+        required: true
+        schema:
+          type: string
+          format: uuid
       - in: path
         name: exchangeAccountId
         description: The exchange account id of the account to retrieve
@@ -76,13 +154,20 @@ paths:
                 $ref: '#/components/schemas/Account'
       security: 
       - ApiKeyAuth: []
-  "/v1/accounts/{exchangeAccountId}/balance":
+  "/v1/users/{userId}/accounts/{exchangeAccountId}/balance":
     get:
       operationId: GetBalance
       tags: 
-        - Accounts
+        - Trading
       description: This endpoint retrieves detailed balance data for an exchange account. By default, the most recent balance is returned. Balance is retrieved from the exchange every 15 minutes for each account, as well as immediately after rebalance operations and trade operations.
       parameters:
+      - in: path
+        name: userId
+        description: The id of the user
+        required: true
+        schema:
+          type: string
+          format: uuid
       - in: path
         name: exchangeAccountId
         description: The exchange account id of the account to retrieve
@@ -123,7 +208,9 @@ components:
           type: number
           example: 123
         exchange:
-          $ref: "#/components/schemas/Exchange"
+          description: The name of the linked exchange
+          type: string
+          example: Kucoin
         isRebalancing:
           description: True if the account is rebalancing.
           type: boolean
@@ -132,11 +219,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ExchangeApiError"
-    Exchange:
-      type: string
-      enum: [ binance, bittrex, coinbasepro, kraken, kucoin, poloniex, huobiGlobal ]
-      description: A unique identifier for the exchange that is used with other Shrimpy endpoints. This is typically the lowercase name of the exchange without spaces.
-      example: kucoin
     ExchangeApiError:
       type: object
       description: An Exchange API Error object represents an issue with user exchange api keys.
@@ -172,25 +254,21 @@ components:
           type: number
           format: double
           example: 3700.0089335
-          nullable: true
         priceBtc:
           description: The latest price in Bitcoin
           type: number
           format: double
           example: 1
-          nullable: true
         percentChange24hUsd:
           description: The change in USD price in the last 24 hours
           type: number
           format: double
           example: 4.191224354581092
-          nullable: true
         lastUpdated:
           description: The time the latest ticker data was retrieved
           type: string
           format: date-time
           example: "2018-12-19T22:51:13.000Z"
-          nullable: true
     User:
       type: object
       description: The user type contains information about a particular user. Users can be enabled and disabled at any time. Trading will continue to work until the expiration date, even if the user is disabled.
@@ -218,7 +296,7 @@ components:
       description: The user type contains information about a particular user. Users can be enabled and disabled at any time. Trading will continue to work until the expiration date, even if the user is disabled.
       properties:
           symbol:
-            description: The symbol of the asset on the exchange.
+            description: The symbol of the asset on the exchange
             type: string
             example: KCS
           nativeValue:
@@ -254,7 +332,9 @@ components:
       description: The exchange info type contains basic information about a particular exchange.
       properties:
         exchange:
-          $ref: "#/components/schemas/Exchange"
+          description: A unique identifier for the exchange that is used with other Shrimpy endpoints. This is typically the lowercase name of the exchange without spaces.
+          type: string
+          example: kucoin
         bestCaseFee:
           description: The lowest possible fee on the exchange. Fees are typically lower based on your trading volume, if you are using an exchange-specific discount token, and if you are the maker. A negative fee means you receive a rebate. All fee values are scalar values associated with percentages. For example, 0.001 means "0.1%".
           type: number

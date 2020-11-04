@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Polly;
 using Serilog;
+using Trakx.Shrimpy.ApiClient.Utils;
 
 namespace Trakx.Shrimpy.ApiClient
 {
@@ -34,7 +35,9 @@ namespace Trakx.Shrimpy.ApiClient
 
         private static void AddCommonDependencies(IServiceCollection services)
         {
-            services.AddSingleton<ClientConfigurator>();
+            services.AddSingleton(s => new ClientConfigurator(s));
+            services.AddSingleton<ICredentialsProvider, ApiKeyCredentialsProvider>();
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             AddClients(services);
         }
 

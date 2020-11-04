@@ -15,21 +15,6 @@ namespace Trakx.Shrimpy.ApiClient
         {
             var delay = Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromMilliseconds(100), retryCount: 10, fastFirst: true);
                                     
-            services.AddHttpClient<IExchangesClient, ExchangesClient>()
-                .AddPolicyHandler((s, request) => 
-                    Policy<HttpResponseMessage>
-                    .Handle<ApiException>()
-                    .Or<HttpRequestException>()
-                    .OrTransientHttpStatusCode()
-                    .WaitAndRetryAsync(delay,
-                        onRetry: (result, timeSpan, retryCount, context) =>
-                        {
-                            var logger = Log.Logger.ForContext<ExchangesClient>();
-                            LogFailure(logger, result, timeSpan, retryCount, context);
-                        })
-                    .WithPolicyKey("ExchangesClient"));
-
-                                
             services.AddHttpClient<IMarketDataClient, MarketDataClient>()
                 .AddPolicyHandler((s, request) => 
                     Policy<HttpResponseMessage>
@@ -45,7 +30,7 @@ namespace Trakx.Shrimpy.ApiClient
                     .WithPolicyKey("MarketDataClient"));
 
                                 
-            services.AddHttpClient<IUsersClient, UsersClient>()
+            services.AddHttpClient<IAccountsClient, AccountsClient>()
                 .AddPolicyHandler((s, request) => 
                     Policy<HttpResponseMessage>
                     .Handle<ApiException>()
@@ -54,25 +39,10 @@ namespace Trakx.Shrimpy.ApiClient
                     .WaitAndRetryAsync(delay,
                         onRetry: (result, timeSpan, retryCount, context) =>
                         {
-                            var logger = Log.Logger.ForContext<UsersClient>();
+                            var logger = Log.Logger.ForContext<AccountsClient>();
                             LogFailure(logger, result, timeSpan, retryCount, context);
                         })
-                    .WithPolicyKey("UsersClient"));
-
-                                
-            services.AddHttpClient<ITradingClient, TradingClient>()
-                .AddPolicyHandler((s, request) => 
-                    Policy<HttpResponseMessage>
-                    .Handle<ApiException>()
-                    .Or<HttpRequestException>()
-                    .OrTransientHttpStatusCode()
-                    .WaitAndRetryAsync(delay,
-                        onRetry: (result, timeSpan, retryCount, context) =>
-                        {
-                            var logger = Log.Logger.ForContext<TradingClient>();
-                            LogFailure(logger, result, timeSpan, retryCount, context);
-                        })
-                    .WithPolicyKey("TradingClient"));
+                    .WithPolicyKey("AccountsClient"));
 
         }
     }

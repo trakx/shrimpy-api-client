@@ -11,9 +11,9 @@ namespace Trakx.Shrimpy.ApiClient.Utils
 {
     public class ApiKeyCredentialsProvider : ICredentialsProvider, IDisposable
     {
-        internal const string ApiKeyHeader = "DEV-SHRIMPY-API-KEY";
-        internal const string ApiNonceHeader = "DEV-SHRIMPY-API-NONCE";
-        internal const string ApiSignatureHeader = "DEV-SHRIMPY-API-SIGNATURE";
+        internal const string ApiKeyHeader = "SHRIMPY-API-KEY";
+        internal const string ApiNonceHeader = "SHRIMPY-API-NONCE";
+        internal const string ApiSignatureHeader = "SHRIMPY-API-SIGNATURE";
 
         private readonly ShrimpyApiConfiguration _configuration;
         private readonly IDateTimeProvider _dateTimeProvider;
@@ -41,15 +41,16 @@ namespace Trakx.Shrimpy.ApiClient.Utils
             var path = msg.RequestUri.AbsolutePath;
             var method = msg.Method.Method.ToUpperInvariant();
             var nonce = GetNonce();
-            var body = msg.Content.ReadAsStringAsync();
+            var body = msg.Content?.ReadAsStringAsync().GetAwaiter().GetResult() ?? string.Empty;
 
             var prehashString = path + method + nonce + body;
             Logger.Verbose("PreHash string is {prehashString}", prehashString);
 
-            msg.Headers.Add(ApiKeyHeader, _configuration.ApiKey);
-            
-            msg.Headers.Add(ApiNonceHeader, nonce);
-            msg.Headers.Add(ApiSignatureHeader, GetSignature(prehashString));
+            var devPrefix = msg.RequestUri.Host.Contains("dev-api") ? "DEV-" : string.Empty;
+
+            msg.Headers.Add(devPrefix + ApiKeyHeader, _configuration.ApiKey);
+            msg.Headers.Add(devPrefix + ApiNonceHeader, nonce);
+            msg.Headers.Add(devPrefix + ApiSignatureHeader, GetSignature(prehashString));
             Logger.Verbose("Headers added");
         }
         #endregion
