@@ -1,2 +1,2 @@
 # shrimpy-api-client
-C# implementation of a Kaiko api client
+C# implementation of a Shrimpy api client
