@@ -134,7 +134,7 @@ components:
             $ref: "#/components/schemas/ExchangeApiError"
     Exchange:
       type: string
-      enum: [ binance, bittrex, coinbasepro, kraken, kucoin, poloniex, huobiGlobal ]
+      enum: [ binance, binanceUs, bittrex, coinbasePro, kraken, kucoin, poloniex, huobiGlobal, okex, gemini, bibox, hitBtc, bitmart, bitstamp, bitfinex ]
       description: A unique identifier for the exchange that is used with other Shrimpy endpoints. This is typically the lowercase name of the exchange without spaces.
       example: kucoin
     ExchangeApiError:
