@@ -9,7 +9,7 @@ using Xunit.Abstractions;
 
 namespace Trakx.Shrimpy.ApiClient.Tests.Integration
 {
-    public class AccountsClientTests : ShrimpyClientTestsBase
+    public sealed class AccountsClientTests : ShrimpyClientTestsBase
     {
         private readonly IAccountsClient _accountsClient;
         public AccountsClientTests(ITestOutputHelper output) : base(output)

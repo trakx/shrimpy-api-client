@@ -1,5 +1,4 @@
-﻿using System.Net.Http;
-using Trakx.Shrimpy.ApiClient.Utils;
+﻿using Trakx.Shrimpy.ApiClient.Utils;
 
 namespace Trakx.Shrimpy.ApiClient
 {

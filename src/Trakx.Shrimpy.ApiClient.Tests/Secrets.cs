@@ -18,8 +18,8 @@ namespace Trakx.Shrimpy.ApiClient.Tests
             }
         }
 
-        public static string? ShrimpyApiKey => Environment.GetEnvironmentVariable("ShrimpyApiConfiguration__ApiKey");
-        public static string ShrimpyApiSecret => Environment.GetEnvironmentVariable("ShrimpyApiConfiguration__ApiSecret");
+        public static string ShrimpyApiKey => Environment.GetEnvironmentVariable("ShrimpyApiConfiguration__ApiKey")!;
+        public static string ShrimpyApiSecret => Environment.GetEnvironmentVariable("ShrimpyApiConfiguration__ApiSecret")!;
     }
     
 }

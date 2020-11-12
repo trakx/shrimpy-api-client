@@ -38,7 +38,7 @@ namespace Trakx.Shrimpy.ApiClient.Utils
         /// <inheritdoc />
         public void AddCredentials(HttpRequestMessage msg)
         {
-            var path = msg.RequestUri.AbsolutePath;
+            var path = msg.RequestUri!.AbsolutePath;
             var method = msg.Method.Method.ToUpperInvariant();
             var nonce = GetNonce();
             var body = msg.Content?.ReadAsStringAsync().GetAwaiter().GetResult() ?? string.Empty;
