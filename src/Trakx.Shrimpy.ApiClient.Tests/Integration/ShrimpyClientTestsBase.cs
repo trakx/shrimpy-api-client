@@ -38,7 +38,7 @@ namespace Trakx.Shrimpy.ApiClient.Tests.Integration
             {
                 ApiKey = Secrets.ShrimpyApiKey,
                 ApiSecret = Secrets.ShrimpyApiSecret,
-                BaseUrl = "https://preprod.trakx.io/api/v2"
+                BaseUrl = "https://api.shrimpy.io"
             };
 
             var serviceCollection = new ServiceCollection();
