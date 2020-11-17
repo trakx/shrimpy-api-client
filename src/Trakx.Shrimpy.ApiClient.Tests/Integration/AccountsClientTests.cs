@@ -12,7 +12,7 @@ namespace Trakx.Shrimpy.ApiClient.Tests.Integration
     public sealed class AccountsClientTests : ShrimpyClientTestsBase
     {
         private readonly IAccountsClient _accountsClient;
-        public AccountsClientTests(ITestOutputHelper output) : base(output)
+        public AccountsClientTests(ShrimpyApiFixture apiFixture, ITestOutputHelper output) : base(apiFixture, output)
         {
             _accountsClient = ServiceProvider.GetRequiredService<IAccountsClient>();
         }

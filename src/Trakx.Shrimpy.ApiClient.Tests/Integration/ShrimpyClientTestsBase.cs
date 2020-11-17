@@ -12,24 +12,11 @@ namespace Trakx.Shrimpy.ApiClient.Tests.Integration
         protected ServiceProvider ServiceProvider;
         protected ILogger Logger;
 
-        public ShrimpyClientTestsBase(ITestOutputHelper output)
+        public ShrimpyClientTestsBase(ShrimpyApiFixture apiFixture, ITestOutputHelper output)
         {
-            var configuration = new ShrimpyApiConfiguration
-            {
-                BaseUrl = "https://api.shrimpy.io",
-                ApiKey = Secrets.ShrimpyApiKey,
-                ApiSecret = Secrets.ShrimpyApiSecret
-            };
-
-            var serviceCollection = new ServiceCollection();
-
             Logger = new LoggerConfiguration().WriteTo.TestOutput(output).CreateLogger();
 
-            serviceCollection.AddSingleton(configuration);
-            serviceCollection.AddSingleton(Logger);
-            serviceCollection.AddShrimpyClient(configuration);
-
-            ServiceProvider = serviceCollection.BuildServiceProvider();
+            ServiceProvider = apiFixture.ServiceProvider;
         }
     }
 
