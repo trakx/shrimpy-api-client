@@ -25,7 +25,7 @@
     <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.9" />
     <PackageReference Include="Polly.Contrib.WaitAndRetry" Version="1.1.1" />
-    <PackageReference Include="NSwag.MSBuild" Version="13.8.2">
+    <PackageReference Include="NSwag.MSBuild" Version="13.9.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -62,8 +62,9 @@
 
   <Target Name="NSwag" BeforeTargets="Build" Condition="'$(GenerateApiClient)'=='True' ">
     <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
-    <Exec Command="$(NSwagExe_Core31) run nswag.json /variables:Configuration=$(Configuration) /runtime:NetCore31" />
+    <Exec Command="$(NSwagExe_Net50) run nswag.json /variables:Configuration=$(Configuration) /runtime:Net50" />
     <RemoveDir Directories="$(OutDir)References" />
   </Target>
 
 </Project>
+
