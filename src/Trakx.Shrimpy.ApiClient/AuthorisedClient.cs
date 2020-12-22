@@ -1,4 +1,4 @@
-﻿using Trakx.Shrimpy.ApiClient.Utils;
+﻿using Trakx.Utils.Api;
 
 namespace Trakx.Shrimpy.ApiClient
 {
