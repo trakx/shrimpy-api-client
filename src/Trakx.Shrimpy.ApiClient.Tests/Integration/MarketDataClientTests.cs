@@ -12,7 +12,7 @@ namespace Trakx.Shrimpy.ApiClient.Tests.Integration
     {
         private readonly IMarketDataClient _marketDataClient;
 
-        public MarketDataClientTests(ITestOutputHelper output) : base(output)
+        public MarketDataClientTests(ShrimpyApiFixture apiFixture, ITestOutputHelper output) : base(apiFixture, output)
         {
             _marketDataClient = ServiceProvider.GetRequiredService<IMarketDataClient>();
         }

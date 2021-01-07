@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using DotNetEnv;
 
 namespace Trakx.Shrimpy.ApiClient.Tests
 {
@@ -10,7 +11,7 @@ namespace Trakx.Shrimpy.ApiClient.Tests
             var srcPath = new DirectoryInfo(Environment.CurrentDirectory).Parent?.Parent?.Parent?.Parent;
             try
             {
-                DotNetEnv.Env.Load(Path.Combine(srcPath?.FullName ?? string.Empty, ".env"));
+                Env.Load(Path.Combine(srcPath?.FullName ?? string.Empty, ".env"));
             }
             catch (Exception)
             {
@@ -18,8 +19,8 @@ namespace Trakx.Shrimpy.ApiClient.Tests
             }
         }
 
-        public static string? ShrimpyApiKey => Environment.GetEnvironmentVariable("ShrimpyApiConfiguration__ApiKey");
-        public static string ShrimpyApiSecret => Environment.GetEnvironmentVariable("ShrimpyApiConfiguration__ApiSecret");
+        public static string ShrimpyApiKey => Environment.GetEnvironmentVariable("ShrimpyApiConfiguration__ApiKey")!;
+        public static string ShrimpyApiSecret => Environment.GetEnvironmentVariable("ShrimpyApiConfiguration__ApiSecret")!;
     }
     
 }
