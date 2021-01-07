@@ -30,11 +30,11 @@ namespace Trakx.Shrimpy.ApiClient.Tests.Integration
 
     public class ShrimpyApiFixture : IDisposable
     {
-        public ServiceProvider ServiceProvider;
+        public ServiceProvider ServiceProvider { get; }
 
         public ShrimpyApiFixture()
         {
-            var configuration = new ShrimpyApiConfiguration()
+            var configuration = new ShrimpyApiConfiguration
             {
                 ApiKey = Secrets.ShrimpyApiKey,
                 ApiSecret = Secrets.ShrimpyApiSecret,

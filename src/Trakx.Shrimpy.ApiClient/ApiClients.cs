@@ -4,8 +4,21 @@
 // </auto-generated>
 //----------------------
 
-using Microsoft.AspNetCore.Mvc;
+using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 #pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
 #pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
@@ -16,77 +29,75 @@ using System.Threading;
 
 namespace Trakx.Shrimpy.ApiClient
 {
-    using System = global::System;
-    
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))")]
+    [GeneratedCode("NSwag", "13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial interface IMarketDataClient : IFavouriteExchangesClient
     {
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="exchange">The identifier of the exchange</param>
         /// <returns>List of Tickers</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Response<System.Collections.Generic.List<Ticker>>> GetTickerAsync(Exchange exchange, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<Response<List<Ticker>>> GetTickerAsync(Exchange exchange, CancellationToken cancellationToken = default(CancellationToken));
     
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))")]
+    [GeneratedCode("NSwag", "13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))")]
     internal partial class MarketDataClient : AuthorisedClient, IMarketDataClient
     {
-        private System.Net.Http.HttpClient _httpClient;
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private HttpClient _httpClient;
+        private Lazy<JsonSerializerSettings> _settings;
     
-        public MarketDataClient(ClientConfigurator configuration, System.Net.Http.HttpClient httpClient) : base(configuration)
+        public MarketDataClient(ClientConfigurator configuration, HttpClient httpClient) : base(configuration)
         {
             _httpClient = httpClient; 
-            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+            _settings = new Lazy<JsonSerializerSettings>(CreateSerializerSettings);
         }
     
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private JsonSerializerSettings CreateSerializerSettings()
         {
-            var settings = new Newtonsoft.Json.JsonSerializerSettings();
+            var settings = new JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
     
-        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
+        protected JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
     
-        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-        partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+        partial void UpdateJsonSerializerSettings(JsonSerializerSettings settings);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
+        partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="exchange">The identifier of the exchange</param>
         /// <returns>List of Tickers</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Response<System.Collections.Generic.List<Ticker>>> GetTickerAsync(Exchange exchange, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<Response<List<Ticker>>> GetTickerAsync(Exchange exchange, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (exchange == null)
-                throw new System.ArgumentNullException("exchange");
+                throw new ArgumentNullException("exchange");
     
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v1/{exchange}/ticker");
-            urlBuilder_.Replace("{exchange}", System.Uri.EscapeDataString(ConvertToString(exchange, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{exchange}", Uri.EscapeDataString(ConvertToString(exchange, CultureInfo.InvariantCulture)));
     
             var client_ = _httpClient;
             var disposeClient_ = false;
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
     
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -98,12 +109,12 @@ namespace Trakx.Shrimpy.ApiClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.List<Ticker>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<List<Ticker>>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new Response<System.Collections.Generic.List<Ticker>>(status_, headers_, objectResponse_.Object);
+                            return new Response<List<Ticker>>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         {
@@ -140,7 +151,7 @@ namespace Trakx.Shrimpy.ApiClient
     
         public bool ReadResponseAsString { get; set; }
         
-        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers)
         {
             if (response == null || response.Content == null)
             {
@@ -152,10 +163,10 @@ namespace Trakx.Shrimpy.ApiClient
                 var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
                 {
-                    var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
+                    var typedBody = JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
                     return new ObjectResponseResult<T>(typedBody, responseText);
                 }
-                catch (Newtonsoft.Json.JsonException exception)
+                catch (JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
                     throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
@@ -166,15 +177,15 @@ namespace Trakx.Shrimpy.ApiClient
                 try
                 {
                     using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new System.IO.StreamReader(responseStream))
-                    using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
+                    using (var streamReader = new StreamReader(responseStream))
+                    using (var jsonTextReader = new JsonTextReader(streamReader))
                     {
-                        var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
+                        var serializer = JsonSerializer.Create(JsonSerializerSettings);
                         var typedBody = serializer.Deserialize<T>(jsonTextReader);
                         return new ObjectResponseResult<T>(typedBody, string.Empty);
                     }
                 }
-                catch (Newtonsoft.Json.JsonException exception)
+                catch (JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
                     throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
@@ -182,128 +193,128 @@ namespace Trakx.Shrimpy.ApiClient
             }
         }
     
-        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        private string ConvertToString(object value, CultureInfo cultureInfo)
         {
             if (value == null)
             {
                 return "";
             }
         
-            if (value is System.Enum)
+            if (value is Enum)
             {
-                var name = System.Enum.GetName(value.GetType(), value);
+                var name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
-                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
-                            as System.Runtime.Serialization.EnumMemberAttribute;
+                        var attribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) 
+                            as EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
         
-                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    var converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                     return converted == null ? string.Empty : converted;
                 }
             }
             else if (value is bool) 
             {
-                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+                return Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
-                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+                var array = Enumerable.OfType<object>((Array) value);
+                return string.Join(",", Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
         
-            var result = System.Convert.ToString(value, cultureInfo);
+            var result = Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))")]
+    [GeneratedCode("NSwag", "13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial interface IAccountsClient : IFavouriteExchangesClient
     {
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>List of Account owned by a user.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Response<System.Collections.Generic.List<Account>>> ListAccountsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<Response<List<Account>>> ListAccountsAsync(CancellationToken cancellationToken = default(CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="exchangeAccountId">The exchange account id of the account to retrieve</param>
         /// <returns>The requested Account.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Response<Account>> GetAccountAsync(double exchangeAccountId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<Response<Account>> GetAccountAsync(double exchangeAccountId, CancellationToken cancellationToken = default(CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="exchangeAccountId">The exchange account id of the account to retrieve</param>
         /// <param name="date">If supplied, balance data that is nearest to the date will be returned. If not supplied, the most recent balance data is returned.</param>
         /// <returns>The requested Balance.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Response<GetBalanceResponse>> GetBalanceAsync(double exchangeAccountId, System.DateTimeOffset? date = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<Response<GetBalanceResponse>> GetBalanceAsync(double exchangeAccountId, DateTimeOffset? date = null, CancellationToken cancellationToken = default(CancellationToken));
     
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))")]
+    [GeneratedCode("NSwag", "13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))")]
     internal partial class AccountsClient : AuthorisedClient, IAccountsClient
     {
-        private System.Net.Http.HttpClient _httpClient;
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private HttpClient _httpClient;
+        private Lazy<JsonSerializerSettings> _settings;
     
-        public AccountsClient(ClientConfigurator configuration, System.Net.Http.HttpClient httpClient) : base(configuration)
+        public AccountsClient(ClientConfigurator configuration, HttpClient httpClient) : base(configuration)
         {
             _httpClient = httpClient; 
-            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+            _settings = new Lazy<JsonSerializerSettings>(CreateSerializerSettings);
         }
     
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private JsonSerializerSettings CreateSerializerSettings()
         {
-            var settings = new Newtonsoft.Json.JsonSerializerSettings();
+            var settings = new JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
     
-        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
+        protected JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
     
-        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-        partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+        partial void UpdateJsonSerializerSettings(JsonSerializerSettings settings);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
+        partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>List of Account owned by a user.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Response<System.Collections.Generic.List<Account>>> ListAccountsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<Response<List<Account>>> ListAccountsAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v1/accounts");
     
             var client_ = _httpClient;
             var disposeClient_ = false;
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
     
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -315,12 +326,12 @@ namespace Trakx.Shrimpy.ApiClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.List<Account>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<List<Account>>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new Response<System.Collections.Generic.List<Account>>(status_, headers_, objectResponse_.Object);
+                            return new Response<List<Account>>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         {
@@ -346,34 +357,34 @@ namespace Trakx.Shrimpy.ApiClient
         /// <param name="exchangeAccountId">The exchange account id of the account to retrieve</param>
         /// <returns>The requested Account.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Response<Account>> GetAccountAsync(double exchangeAccountId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<Response<Account>> GetAccountAsync(double exchangeAccountId, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (exchangeAccountId == null)
-                throw new System.ArgumentNullException("exchangeAccountId");
+                throw new ArgumentNullException("exchangeAccountId");
     
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v1/accounts/{exchangeAccountId}");
-            urlBuilder_.Replace("{exchangeAccountId}", System.Uri.EscapeDataString(ConvertToString(exchangeAccountId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{exchangeAccountId}", Uri.EscapeDataString(ConvertToString(exchangeAccountId, CultureInfo.InvariantCulture)));
     
             var client_ = _httpClient;
             var disposeClient_ = false;
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
     
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -417,17 +428,17 @@ namespace Trakx.Shrimpy.ApiClient
         /// <param name="date">If supplied, balance data that is nearest to the date will be returned. If not supplied, the most recent balance data is returned.</param>
         /// <returns>The requested Balance.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Response<GetBalanceResponse>> GetBalanceAsync(double exchangeAccountId, System.DateTimeOffset? date = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<Response<GetBalanceResponse>> GetBalanceAsync(double exchangeAccountId, DateTimeOffset? date = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (exchangeAccountId == null)
-                throw new System.ArgumentNullException("exchangeAccountId");
+                throw new ArgumentNullException("exchangeAccountId");
     
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v1/accounts/{exchangeAccountId}/balance?");
-            urlBuilder_.Replace("{exchangeAccountId}", System.Uri.EscapeDataString(ConvertToString(exchangeAccountId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{exchangeAccountId}", Uri.EscapeDataString(ConvertToString(exchangeAccountId, CultureInfo.InvariantCulture)));
             if (date != null) 
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("date") + "=").Append(System.Uri.EscapeDataString(date.Value.ToString("yyyy-MM-ddTHH:mm:ssZ", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("date") + "=").Append(Uri.EscapeDataString(date.Value.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
     
@@ -435,21 +446,21 @@ namespace Trakx.Shrimpy.ApiClient
             var disposeClient_ = false;
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
                     PrepareRequest(client_, request_, url_);
     
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -503,7 +514,7 @@ namespace Trakx.Shrimpy.ApiClient
     
         public bool ReadResponseAsString { get; set; }
         
-        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers)
         {
             if (response == null || response.Content == null)
             {
@@ -515,10 +526,10 @@ namespace Trakx.Shrimpy.ApiClient
                 var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
                 {
-                    var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
+                    var typedBody = JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
                     return new ObjectResponseResult<T>(typedBody, responseText);
                 }
-                catch (Newtonsoft.Json.JsonException exception)
+                catch (JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
                     throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
@@ -529,15 +540,15 @@ namespace Trakx.Shrimpy.ApiClient
                 try
                 {
                     using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new System.IO.StreamReader(responseStream))
-                    using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
+                    using (var streamReader = new StreamReader(responseStream))
+                    using (var jsonTextReader = new JsonTextReader(streamReader))
                     {
-                        var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
+                        var serializer = JsonSerializer.Create(JsonSerializerSettings);
                         var typedBody = serializer.Deserialize<T>(jsonTextReader);
                         return new ObjectResponseResult<T>(typedBody, string.Empty);
                     }
                 }
-                catch (Newtonsoft.Json.JsonException exception)
+                catch (JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
                     throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
@@ -545,76 +556,76 @@ namespace Trakx.Shrimpy.ApiClient
             }
         }
     
-        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        private string ConvertToString(object value, CultureInfo cultureInfo)
         {
             if (value == null)
             {
                 return "";
             }
         
-            if (value is System.Enum)
+            if (value is Enum)
             {
-                var name = System.Enum.GetName(value.GetType(), value);
+                var name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
-                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
-                            as System.Runtime.Serialization.EnumMemberAttribute;
+                        var attribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) 
+                            as EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
         
-                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    var converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                     return converted == null ? string.Empty : converted;
                 }
             }
             else if (value is bool) 
             {
-                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+                return Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
-                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+                var array = Enumerable.OfType<object>((Array) value);
+                return string.Join(",", Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
         
-            var result = System.Convert.ToString(value, cultureInfo);
+            var result = Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
     }
 
     /// <summary>The account object contains information about an exchange account that you have linked to your Shrimpy account.</summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
+    [GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
     public partial class Account 
     {
         /// <summary>The unique identifier of the strategy</summary>
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("id", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public double Id { get; set; }
     
-        [Newtonsoft.Json.JsonProperty("exchange", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [JsonProperty("exchange", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public Exchange Exchange { get; set; }
     
         /// <summary>True if the account is rebalancing.</summary>
-        [Newtonsoft.Json.JsonProperty("isRebalancing", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("isRebalancing", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public bool IsRebalancing { get; set; }
     
         /// <summary>A list of errors received from the exchange that relate to the user's exchange API keys. This list is generally empty and a non-empty list usually indicates an issue that the user needs to resolve. For example, this list will be non-empty if the user deletes their API keys from the exchange, or has invalid API permission on the exchange.</summary>
-        [Newtonsoft.Json.JsonProperty("exchangeApiErrors", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<ExchangeApiError> ExchangeApiErrors { get; set; }
+        [JsonProperty("exchangeApiErrors", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
+        public List<ExchangeApiError> ExchangeApiErrors { get; set; }
     
-        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
+        private IDictionary<string, object> _additionalProperties = new Dictionary<string, object>();
     
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties
         {
             get { return _additionalProperties; }
             set { _additionalProperties = value; }
@@ -624,73 +635,73 @@ namespace Trakx.Shrimpy.ApiClient
     }
     
     /// <summary>A unique identifier for the exchange that is used with other Shrimpy endpoints. This is typically the lowercase name of the exchange without spaces.</summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
+    [GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
     public enum Exchange
     {
-        [System.Runtime.Serialization.EnumMember(Value = @"binance")]
+        [EnumMember(Value = @"binance")]
         Binance = 0,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"binanceUs")]
+        [EnumMember(Value = @"binanceUs")]
         BinanceUs = 1,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"bittrex")]
+        [EnumMember(Value = @"bittrex")]
         Bittrex = 2,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"coinbasePro")]
+        [EnumMember(Value = @"coinbasePro")]
         CoinbasePro = 3,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"kraken")]
+        [EnumMember(Value = @"kraken")]
         Kraken = 4,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"kucoin")]
+        [EnumMember(Value = @"kucoin")]
         Kucoin = 5,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"poloniex")]
+        [EnumMember(Value = @"poloniex")]
         Poloniex = 6,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"huobiGlobal")]
+        [EnumMember(Value = @"huobiGlobal")]
         HuobiGlobal = 7,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"okex")]
+        [EnumMember(Value = @"okex")]
         Okex = 8,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"gemini")]
+        [EnumMember(Value = @"gemini")]
         Gemini = 9,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"bibox")]
+        [EnumMember(Value = @"bibox")]
         Bibox = 10,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"hitBtc")]
+        [EnumMember(Value = @"hitBtc")]
         HitBtc = 11,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"bitmart")]
+        [EnumMember(Value = @"bitmart")]
         Bitmart = 12,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"bitstamp")]
+        [EnumMember(Value = @"bitstamp")]
         Bitstamp = 13,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"bitfinex")]
+        [EnumMember(Value = @"bitfinex")]
         Bitfinex = 14,
     
     }
     
     /// <summary>An Exchange API Error object represents an issue with user exchange api keys.</summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
+    [GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
     public partial class ExchangeApiError 
     {
         /// <summary>The error code associated with the exchange error. * 1001 - Invalid IP whitelist: The exchange rejected the request from our API servers due to a user's IP whitelist on the exchange. This can happen if a user enables IP whitelisting on the exchange and fails to whitelist all 4 of the IP addresses provisioned by Shrimpy for the user. * 1002 - -Invalid API keys: The API keys are no longer valid. This can happen if the user deletes their exchange API keys from the exchange. * 1003 - Invalid nonce: The exchange rejected a request from our API servers due to the nonce. This can happen on some exchanges if the exchange API keys are shared with another service. * 1004 - Invalid permission: 	PERMISSION_TYPE	The user has not allowed all required permissions on the exchange. The most common values for PERMISSION_TYPE are "balance" and "trade".
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("code", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("code", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public double Code { get; set; }
     
         /// <summary>A human-readable description of the error.</summary>
-        [Newtonsoft.Json.JsonProperty("message", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("message", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public string Message { get; set; }
     
-        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
+        private IDictionary<string, object> _additionalProperties = new Dictionary<string, object>();
     
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties
         {
             get { return _additionalProperties; }
             set { _additionalProperties = value; }
@@ -700,37 +711,37 @@ namespace Trakx.Shrimpy.ApiClient
     }
     
     /// <summary>The ticker type contains public information about a particular asset. The symbol depends on the exchange, so it can vary from exchange to exchange. The price is calculated by taking the average of the latest bid and latest ask.</summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
+    [GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
     public partial class Ticker 
     {
         /// <summary>The name of the asset</summary>
-        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("name", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
     
         /// <summary>The symbol of the asset on the exchange</summary>
-        [Newtonsoft.Json.JsonProperty("symbol", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("symbol", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public string Symbol { get; set; }
     
         /// <summary>The latest price in United States Dollars</summary>
-        [Newtonsoft.Json.JsonProperty("priceUsd", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("priceUsd", Required = Required.Default, NullValueHandling = NullValueHandling.Ignore)]
         public double? PriceUsd { get; set; }
     
         /// <summary>The latest price in Bitcoin</summary>
-        [Newtonsoft.Json.JsonProperty("priceBtc", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("priceBtc", Required = Required.Default, NullValueHandling = NullValueHandling.Ignore)]
         public double? PriceBtc { get; set; }
     
         /// <summary>The change in USD price in the last 24 hours</summary>
-        [Newtonsoft.Json.JsonProperty("percentChange24hUsd", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("percentChange24hUsd", Required = Required.Default, NullValueHandling = NullValueHandling.Ignore)]
         public double? PercentChange24hUsd { get; set; }
     
         /// <summary>The time the latest ticker data was retrieved</summary>
-        [Newtonsoft.Json.JsonProperty("lastUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset? LastUpdated { get; set; }
+        [JsonProperty("lastUpdated", Required = Required.Default, NullValueHandling = NullValueHandling.Ignore)]
+        public DateTimeOffset? LastUpdated { get; set; }
     
-        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
+        private IDictionary<string, object> _additionalProperties = new Dictionary<string, object>();
     
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties
         {
             get { return _additionalProperties; }
             set { _additionalProperties = value; }
@@ -740,29 +751,29 @@ namespace Trakx.Shrimpy.ApiClient
     }
     
     /// <summary>The user type contains information about a particular user. Users can be enabled and disabled at any time. Trading will continue to work until the expiration date, even if the user is disabled.</summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
+    [GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
     public partial class User 
     {
         /// <summary>The unique identifier of the user.</summary>
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid Id { get; set; }
+        [JsonProperty("id", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
+        public Guid Id { get; set; }
     
         /// <summary>True if the user is currently enabled.</summary>
-        [Newtonsoft.Json.JsonProperty("isEnabled", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("isEnabled", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public bool IsEnabled { get; set; }
     
         /// <summary>The date the user will expire.</summary>
-        [Newtonsoft.Json.JsonProperty("expirationDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset? ExpirationDate { get; set; }
+        [JsonProperty("expirationDate", Required = Required.Default, NullValueHandling = NullValueHandling.Ignore)]
+        public DateTimeOffset? ExpirationDate { get; set; }
     
         /// <summary>The optional name associated with the user.</summary>
-        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("name", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
     
-        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
+        private IDictionary<string, object> _additionalProperties = new Dictionary<string, object>();
     
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties
         {
             get { return _additionalProperties; }
             set { _additionalProperties = value; }
@@ -772,29 +783,29 @@ namespace Trakx.Shrimpy.ApiClient
     }
     
     /// <summary>The user type contains information about a particular user. Users can be enabled and disabled at any time. Trading will continue to work until the expiration date, even if the user is disabled.</summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
+    [GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
     public partial class Balance 
     {
         /// <summary>The symbol of the asset on the exchange.</summary>
-        [Newtonsoft.Json.JsonProperty("symbol", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("symbol", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public string Symbol { get; set; }
     
         /// <summary>The amount of the asset on the exchange.</summary>
-        [Newtonsoft.Json.JsonProperty("nativeValue", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("nativeValue", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public double NativeValue { get; set; }
     
         /// <summary>The value of the asset on the exchange, in Bitcoin. This value is computed when the balance data is collected.</summary>
-        [Newtonsoft.Json.JsonProperty("btcValue", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("btcValue", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public double BtcValue { get; set; }
     
         /// <summary>The value of the asset on the exchange, in United States Dollars. This value is computed when the balance data is collected.</summary>
-        [Newtonsoft.Json.JsonProperty("usdValue", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("usdValue", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public double UsdValue { get; set; }
     
-        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
+        private IDictionary<string, object> _additionalProperties = new Dictionary<string, object>();
     
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties
         {
             get { return _additionalProperties; }
             set { _additionalProperties = value; }
@@ -804,21 +815,21 @@ namespace Trakx.Shrimpy.ApiClient
     }
     
     /// <summary>The user type contains information about a particular user. Users can be enabled and disabled at any time. Trading will continue to work until the expiration date, even if the user is disabled.</summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
+    [GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
     public partial class GetBalanceResponse 
     {
         /// <summary>The date the data was retrieved, or null if no balance data has been retrieved yet.</summary>
-        [Newtonsoft.Json.JsonProperty("retrievedAt", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset RetrievedAt { get; set; }
+        [JsonProperty("retrievedAt", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
+        public DateTimeOffset RetrievedAt { get; set; }
     
         /// <summary>An array of balance information. This array will be empty if no balance data has been retrieved yet.</summary>
-        [Newtonsoft.Json.JsonProperty("balances", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<Balance> Balances { get; set; }
+        [JsonProperty("balances", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
+        public List<Balance> Balances { get; set; }
     
-        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
+        private IDictionary<string, object> _additionalProperties = new Dictionary<string, object>();
     
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties
         {
             get { return _additionalProperties; }
             set { _additionalProperties = value; }
@@ -828,29 +839,29 @@ namespace Trakx.Shrimpy.ApiClient
     }
     
     /// <summary>The exchange info type contains basic information about a particular exchange.</summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
+    [GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
     public partial class ExchangeInfo 
     {
-        [Newtonsoft.Json.JsonProperty("exchange", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [JsonProperty("exchange", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public Exchange Exchange { get; set; }
     
         /// <summary>The lowest possible fee on the exchange. Fees are typically lower based on your trading volume, if you are using an exchange-specific discount token, and if you are the maker. A negative fee means you receive a rebate. All fee values are scalar values associated with percentages. For example, 0.001 means "0.1%".</summary>
-        [Newtonsoft.Json.JsonProperty("bestCaseFee", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("bestCaseFee", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public double BestCaseFee { get; set; }
     
         /// <summary>The highest possible fee on the exchange. All fee values are scalar values associated with percentages. For example, 0.001 means "0.1%".</summary>
-        [Newtonsoft.Json.JsonProperty("worstCaseFee", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("worstCaseFee", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public double WorstCaseFee { get; set; }
     
         /// <summary>A url for a 32x32px icon associated with the exchange.</summary>
-        [Newtonsoft.Json.JsonProperty("icon", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [JsonProperty("icon", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public string Icon { get; set; }
     
-        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
+        private IDictionary<string, object> _additionalProperties = new Dictionary<string, object>();
     
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties
         {
             get { return _additionalProperties; }
             set { _additionalProperties = value; }
@@ -859,42 +870,42 @@ namespace Trakx.Shrimpy.ApiClient
     
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))")]
+    [GeneratedCode("NSwag", "13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial class Response
     {
         public int StatusCode { get; private set; }
 
-        public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
+        public IReadOnlyDictionary<string, IEnumerable<string>> Headers { get; private set; }
         
-        public Response(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers) 
+        public Response(int statusCode, IReadOnlyDictionary<string, IEnumerable<string>> headers) 
         {
             StatusCode = statusCode; 
             Headers = headers;
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))")]
+    [GeneratedCode("NSwag", "13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial class Response<TResult> : Response
     {
         public TResult Result { get; private set; }
         
-        public Response(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result) 
+        public Response(int statusCode, IReadOnlyDictionary<string, IEnumerable<string>> headers, TResult result) 
             : base(statusCode, headers)
         {
             Result = result;
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))")]
-    public partial class ApiException : System.Exception
+    [GeneratedCode("NSwag", "13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))")]
+    public partial class ApiException : Exception
     {
         public int StatusCode { get; private set; }
 
         public string Response { get; private set; }
 
-        public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
+        public IReadOnlyDictionary<string, IEnumerable<string>> Headers { get; private set; }
 
-        public ApiException(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException)
+        public ApiException(string message, int statusCode, string response, IReadOnlyDictionary<string, IEnumerable<string>> headers, Exception innerException)
             : base(message + "\n\nStatus: " + statusCode + "\nResponse: \n" + ((response == null) ? "(null)" : response.Substring(0, response.Length >= 512 ? 512 : response.Length)), innerException)
         {
             StatusCode = statusCode;
@@ -908,12 +919,12 @@ namespace Trakx.Shrimpy.ApiClient
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))")]
+    [GeneratedCode("NSwag", "13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial class ApiException<TResult> : ApiException
     {
         public TResult Result { get; private set; }
 
-        public ApiException(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException)
+        public ApiException(string message, int statusCode, string response, IReadOnlyDictionary<string, IEnumerable<string>> headers, TResult result, Exception innerException)
             : base(message, statusCode, response, headers, innerException)
         {
             Result = result;
