@@ -34,10 +34,11 @@ namespace Trakx.Shrimpy.ApiClient.Tests.Integration
 
         public ShrimpyApiFixture()
         {
+            var secrets = new Secrets();
             var configuration = new ShrimpyApiConfiguration
             {
-                ApiKey = Secrets.ShrimpyApiKey,
-                ApiSecret = Secrets.ShrimpyApiSecret,
+                ApiKey = secrets.ShrimpyApiKey,
+                ApiSecret = secrets.ShrimpyApiSecret,
                 BaseUrl = "https://api.shrimpy.io"
             };
 
