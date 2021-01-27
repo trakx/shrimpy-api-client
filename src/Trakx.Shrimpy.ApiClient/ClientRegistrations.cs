@@ -26,7 +26,7 @@ namespace Trakx.Shrimpy.ApiClient
                             var logger = Log.Logger.ForContext<MarketDataClient>();
                             LogFailure(logger, result, timeSpan, retryCount, context);
                         })
-                    .WithPolicyKey("MarketDataClient"));
+                    .WithPolicyKey("Trakx.Shrimpy.ApiClient.MarketDataClient"));
 
                                 
             services.AddHttpClient<IAccountsClient, AccountsClient>()
@@ -41,7 +41,7 @@ namespace Trakx.Shrimpy.ApiClient
                             var logger = Log.Logger.ForContext<AccountsClient>();
                             LogFailure(logger, result, timeSpan, retryCount, context);
                         })
-                    .WithPolicyKey("AccountsClient"));
+                    .WithPolicyKey("Trakx.Shrimpy.ApiClient.AccountsClient"));
 
         }
     }
