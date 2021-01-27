@@ -12,8 +12,10 @@ using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
 using Serilog;
 
-
-namespace Trakx.Shrimpy.ApiClient
+<# 
+var nameSpace = "Trakx.Shrimpy.ApiClient";
+#>
+namespace <#= nameSpace #>
 {
     public static partial class AddShrimpyClientExtension
     {
@@ -39,7 +41,7 @@ namespace Trakx.Shrimpy.ApiClient
                             var logger = Log.Logger.ForContext<<#= name #>>();
                             LogFailure(logger, result, timeSpan, retryCount, context);
                         })
-                    .WithPolicyKey("<#= name #>"));
+                    .WithPolicyKey("<#= nameSpace #>.<#= name #>"));
 
         <#
         }
