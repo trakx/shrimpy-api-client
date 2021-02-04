@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Trakx.Shrimpy.ApiClient.Utils;
 using Trakx.Utils.Apis;
 
 namespace Trakx.Shrimpy.ApiClient
@@ -25,7 +26,7 @@ namespace Trakx.Shrimpy.ApiClient
                 //case nameof(ExchangesClient):
                     return new NoCredentialsProvider();
                 default:
-                    return _serviceProvider.GetService<ICredentialsProvider>()!;
+                    return _serviceProvider.GetService<IShrimpyCredentialsProvider>()!;
             }
         }
     }

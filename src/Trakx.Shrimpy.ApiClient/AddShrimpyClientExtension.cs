@@ -38,7 +38,7 @@ namespace Trakx.Shrimpy.ApiClient
         private static void AddCommonDependencies(IServiceCollection services)
         {
             services.AddSingleton(s => new ClientConfigurator(s));
-            services.AddSingleton<ICredentialsProvider, ApiKeyCredentialsProvider>();
+            services.AddSingleton<IShrimpyCredentialsProvider, ApiKeyCredentialsProvider>();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             AddClients(services);
         }

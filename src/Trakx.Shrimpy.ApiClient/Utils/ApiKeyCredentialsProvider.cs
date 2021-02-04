@@ -11,7 +11,8 @@ using Trakx.Utils.DateTimeHelpers;
 
 namespace Trakx.Shrimpy.ApiClient.Utils
 {
-    public class ApiKeyCredentialsProvider : ICredentialsProvider, IDisposable
+    public interface IShrimpyCredentialsProvider : ICredentialsProvider { };
+    public class ApiKeyCredentialsProvider : IShrimpyCredentialsProvider, IDisposable
     {
         internal const string ApiKeyHeader = "SHRIMPY-API-KEY";
         internal const string ApiNonceHeader = "SHRIMPY-API-NONCE";
