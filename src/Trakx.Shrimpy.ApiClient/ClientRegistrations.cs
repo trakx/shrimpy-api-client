@@ -14,7 +14,7 @@ namespace Trakx.Shrimpy.ApiClient
         {
             var delay = Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromMilliseconds(100), retryCount: 10, fastFirst: true);
                                     
-            services.AddHttpClient<IMarketDataClient, MarketDataClient>()
+            services.AddHttpClient<IMarketDataClient, MarketDataClient>("Trakx.Shrimpy.ApiClient.MarketDataClient")
                 .AddPolicyHandler((s, request) => 
                     Policy<HttpResponseMessage>
                     .Handle<ApiException>()
@@ -29,7 +29,7 @@ namespace Trakx.Shrimpy.ApiClient
                     .WithPolicyKey("Trakx.Shrimpy.ApiClient.MarketDataClient"));
 
                                 
-            services.AddHttpClient<IAccountsClient, AccountsClient>()
+            services.AddHttpClient<IAccountsClient, AccountsClient>("Trakx.Shrimpy.ApiClient.AccountsClient")
                 .AddPolicyHandler((s, request) => 
                     Policy<HttpResponseMessage>
                     .Handle<ApiException>()
