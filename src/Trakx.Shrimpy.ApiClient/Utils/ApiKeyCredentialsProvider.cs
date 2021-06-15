@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Trakx.Utils.Apis;
@@ -55,6 +56,12 @@ namespace Trakx.Shrimpy.ApiClient.Utils
             msg.Headers.Add(devPrefix + ApiNonceHeader, nonce);
             msg.Headers.Add(devPrefix + ApiSignatureHeader, GetSignature(prehashString));
             Logger.Verbose("Headers added");
+        }
+
+        public Task AddCredentialsAsync(HttpRequestMessage msg)
+        {
+            AddCredentials(msg);
+            return Task.CompletedTask;
         }
         #endregion
 
