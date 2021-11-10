@@ -157,8 +157,7 @@ paths:
         required: true
         description: The interval must be one of the following values 1m, 5m, 15m, 1h, 6h, or 1d) These values correspond to intervals representing one minute, five minutes, fifteen minutes, one hour, six hours, and one day, respectively.
         schema:
-          type: number
-          format: int32
+          type: string
       responses:
         "200":
           description: The candles.
