@@ -37,7 +37,7 @@ namespace Trakx.Shrimpy.ApiClient
         /// <param name="interval">The interval must be one of the following values 1m, 5m, 15m, 1h, 6h, or 1d) These values correspond to intervals representing one minute, five minutes, fifteen minutes, one hour, six hours, and one day, respectively.</param>
         /// <returns>The candles.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Response<System.Collections.Generic.List<HistoricalCandle>>> GetHistoricalCandlesAsync(Exchange exchange, string baseTradingSymbol, string quoteTradingSymbol, System.DateTimeOffset startTime, System.DateTimeOffset endTime, double limit, double interval, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Response<System.Collections.Generic.List<HistoricalCandle>>> GetHistoricalCandlesAsync(Exchange exchange, string baseTradingSymbol, string quoteTradingSymbol, System.DateTimeOffset startTime, System.DateTimeOffset endTime, double limit, string interval, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
     }
     
@@ -150,7 +150,7 @@ namespace Trakx.Shrimpy.ApiClient
         /// <param name="interval">The interval must be one of the following values 1m, 5m, 15m, 1h, 6h, or 1d) These values correspond to intervals representing one minute, five minutes, fifteen minutes, one hour, six hours, and one day, respectively.</param>
         /// <returns>The candles.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Response<System.Collections.Generic.List<HistoricalCandle>>> GetHistoricalCandlesAsync(Exchange exchange, string baseTradingSymbol, string quoteTradingSymbol, System.DateTimeOffset startTime, System.DateTimeOffset endTime, double limit, double interval, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Response<System.Collections.Generic.List<HistoricalCandle>>> GetHistoricalCandlesAsync(Exchange exchange, string baseTradingSymbol, string quoteTradingSymbol, System.DateTimeOffset startTime, System.DateTimeOffset endTime, double limit, string interval, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (exchange == null)
                 throw new System.ArgumentNullException("exchange");
