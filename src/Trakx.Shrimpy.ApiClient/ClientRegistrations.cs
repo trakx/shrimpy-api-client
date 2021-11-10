@@ -60,7 +60,7 @@ namespace Trakx.Shrimpy.ApiClient
                             LogFailure(logger, result, timeSpan, retryCount, context);
                         })
                     .WithPolicyKey("Trakx.Shrimpy.ApiClient.HistoricalClient"));
-
-                   }
+            
+        }
     }
 }

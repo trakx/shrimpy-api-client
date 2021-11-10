@@ -69,10 +69,9 @@ namespace <#= nameSpace #>
                             LogFailure(logger, result, timeSpan, retryCount, context);
                         })
                     .WithPolicyKey("<#= nameSpace #>.<#= name #>"));
-
            <#
             }
-            #>
+            #> 
         }
     }
 }
