@@ -5,6 +5,7 @@ using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
 using Serilog;
+using Trakx.Utils.Apis;
 
 namespace Trakx.Shrimpy.ApiClient
 {
@@ -28,7 +29,7 @@ namespace Trakx.Shrimpy.ApiClient
                         })
                     .WithPolicyKey("Trakx.Shrimpy.ApiClient.MarketDataClient"));
 
-                                
+                                    
             services.AddHttpClient<IAccountsClient, AccountsClient>("Trakx.Shrimpy.ApiClient.AccountsClient")
                 .AddPolicyHandler((s, request) => 
                     Policy<HttpResponseMessage>
@@ -43,7 +44,8 @@ namespace Trakx.Shrimpy.ApiClient
                         })
                     .WithPolicyKey("Trakx.Shrimpy.ApiClient.AccountsClient"));
 
-                                
+            
+                                    
             services.AddHttpClient<IHistoricalClient, HistoricalClient>("Trakx.Shrimpy.ApiClient.HistoricalClient")
                 .AddPolicyHandler((s, request) => 
                     Policy<HttpResponseMessage>
@@ -53,11 +55,12 @@ namespace Trakx.Shrimpy.ApiClient
                     .WaitAndRetryAsync(delay,
                         onRetry: (result, timeSpan, retryCount, context) =>
                         {
+                            s.GetRequiredService<ICredentialsProvider>().AddCredentials(request);
                             var logger = Log.Logger.ForContext<HistoricalClient>();
                             LogFailure(logger, result, timeSpan, retryCount, context);
                         })
                     .WithPolicyKey("Trakx.Shrimpy.ApiClient.HistoricalClient"));
 
-        }
+                   }
     }
 }
