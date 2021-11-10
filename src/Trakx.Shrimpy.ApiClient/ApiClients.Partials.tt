@@ -8,7 +8,7 @@
 namespace Trakx.Shrimpy.ApiClient
 {
 <# 
-var clientNames = new [] { /*"ExchangesClient", "MarketDataClient",*/ "AccountsClient" };
+var clientNames = new [] { /*"ExchangesClient", "MarketDataClient",*/ "AccountsClient", "HistoricalClient" };
 
 foreach(var name in clientNames)
 {

@@ -27,18 +27,6 @@ namespace Trakx.Shrimpy.ApiClient
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<Response<System.Collections.Generic.List<Ticker>>> GetTickerAsync(Exchange exchange, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <param name="exchange">The exchange for which to retrieve historical ohlcv data</param>
-        /// <param name="baseTradingSymbol">The base trading symbol that is used by the exchange.</param>
-        /// <param name="quoteTradingSymbol">The quote trading symbol that is used by the exchange.</param>
-        /// <param name="startTime">The starting time in ISO 8601</param>
-        /// <param name="endTime">The ending time in ISO 8601</param>
-        /// <param name="limit">The amount of items to return. Must be an integer from 1 to 1000.</param>
-        /// <param name="interval">The interval must be one of the following values 1m, 5m, 15m, 1h, 6h, or 1d) These values correspond to intervals representing one minute, five minutes, fifteen minutes, one hour, six hours, and one day, respectively.</param>
-        /// <returns>The candles.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Response<System.Collections.Generic.List<HistoricalCandle>>> GetHistoricalCandlesAsync(Exchange exchange, string baseTradingSymbol, string quoteTradingSymbol, System.DateTimeOffset startTime, System.DateTimeOffset endTime, double limit, string interval, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-    
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.11.3.0 (NJsonSchema v10.4.4.0 (Newtonsoft.Json v12.0.0.0))")]
@@ -119,109 +107,6 @@ namespace Trakx.Shrimpy.ApiClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return new Response<System.Collections.Generic.List<Ticker>>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-    
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <param name="exchange">The exchange for which to retrieve historical ohlcv data</param>
-        /// <param name="baseTradingSymbol">The base trading symbol that is used by the exchange.</param>
-        /// <param name="quoteTradingSymbol">The quote trading symbol that is used by the exchange.</param>
-        /// <param name="startTime">The starting time in ISO 8601</param>
-        /// <param name="endTime">The ending time in ISO 8601</param>
-        /// <param name="limit">The amount of items to return. Must be an integer from 1 to 1000.</param>
-        /// <param name="interval">The interval must be one of the following values 1m, 5m, 15m, 1h, 6h, or 1d) These values correspond to intervals representing one minute, five minutes, fifteen minutes, one hour, six hours, and one day, respectively.</param>
-        /// <returns>The candles.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Response<System.Collections.Generic.List<HistoricalCandle>>> GetHistoricalCandlesAsync(Exchange exchange, string baseTradingSymbol, string quoteTradingSymbol, System.DateTimeOffset startTime, System.DateTimeOffset endTime, double limit, string interval, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-            if (exchange == null)
-                throw new System.ArgumentNullException("exchange");
-    
-            if (baseTradingSymbol == null)
-                throw new System.ArgumentNullException("baseTradingSymbol");
-    
-            if (quoteTradingSymbol == null)
-                throw new System.ArgumentNullException("quoteTradingSymbol");
-    
-            if (startTime == null)
-                throw new System.ArgumentNullException("startTime");
-    
-            if (endTime == null)
-                throw new System.ArgumentNullException("endTime");
-    
-            if (limit == null)
-                throw new System.ArgumentNullException("limit");
-    
-            if (interval == null)
-                throw new System.ArgumentNullException("interval");
-    
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v1/historical/candles?");
-            urlBuilder_.Append(System.Uri.EscapeDataString("exchange") + "=").Append(System.Uri.EscapeDataString(ConvertToString(exchange, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            urlBuilder_.Append(System.Uri.EscapeDataString("baseTradingSymbol") + "=").Append(System.Uri.EscapeDataString(ConvertToString(baseTradingSymbol, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            urlBuilder_.Append(System.Uri.EscapeDataString("quoteTradingSymbol") + "=").Append(System.Uri.EscapeDataString(ConvertToString(quoteTradingSymbol, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            urlBuilder_.Append(System.Uri.EscapeDataString("startTime") + "=").Append(System.Uri.EscapeDataString(startTime.ToString("yyyy-MM-ddTHH:mm:ssZ", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            urlBuilder_.Append(System.Uri.EscapeDataString("endTime") + "=").Append(System.Uri.EscapeDataString(endTime.ToString("yyyy-MM-ddTHH:mm:ssZ", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            urlBuilder_.Append(System.Uri.EscapeDataString("limit") + "=").Append(System.Uri.EscapeDataString(ConvertToString(limit, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            urlBuilder_.Append(System.Uri.EscapeDataString("interval") + "=").Append(System.Uri.EscapeDataString(ConvertToString(interval, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            urlBuilder_.Length--;
-    
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-    
-                    PrepareRequest(client_, request_, urlBuilder_);
-    
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-    
-                    PrepareRequest(client_, request_, url_);
-    
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-    
-                        ProcessResponse(client_, response_);
-    
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.List<HistoricalCandle>>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new Response<System.Collections.Generic.List<HistoricalCandle>>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         {
@@ -592,6 +477,256 @@ namespace Trakx.Shrimpy.ApiClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return new Response<GetBalanceResponse>(status_, headers_, objectResponse_.Object);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+    
+        protected struct ObjectResponseResult<T>
+        {
+            public ObjectResponseResult(T responseObject, string responseText)
+            {
+                this.Object = responseObject;
+                this.Text = responseText;
+            }
+    
+            public T Object { get; }
+    
+            public string Text { get; }
+        }
+    
+        public bool ReadResponseAsString { get; set; }
+        
+        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        {
+            if (response == null || response.Content == null)
+            {
+                return new ObjectResponseResult<T>(default(T), string.Empty);
+            }
+        
+            if (ReadResponseAsString)
+            {
+                var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
+                    return new ObjectResponseResult<T>(typedBody, responseText);
+                }
+                catch (Newtonsoft.Json.JsonException exception)
+                {
+                    var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
+                    throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
+                }
+            }
+            else
+            {
+                try
+                {
+                    using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
+                    {
+                        var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
+                        var typedBody = serializer.Deserialize<T>(jsonTextReader);
+                        return new ObjectResponseResult<T>(typedBody, string.Empty);
+                    }
+                }
+                catch (Newtonsoft.Json.JsonException exception)
+                {
+                    var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
+                    throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
+                }
+            }
+        }
+    
+        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        {
+            if (value == null)
+            {
+                return "";
+            }
+        
+            if (value is System.Enum)
+            {
+                var name = System.Enum.GetName(value.GetType(), value);
+                if (name != null)
+                {
+                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    if (field != null)
+                    {
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                            as System.Runtime.Serialization.EnumMemberAttribute;
+                        if (attribute != null)
+                        {
+                            return attribute.Value != null ? attribute.Value : name;
+                        }
+                    }
+        
+                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    return converted == null ? string.Empty : converted;
+                }
+            }
+            else if (value is bool) 
+            {
+                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+            }
+            else if (value is byte[])
+            {
+                return System.Convert.ToBase64String((byte[]) value);
+            }
+            else if (value.GetType().IsArray)
+            {
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
+                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+            }
+        
+            var result = System.Convert.ToString(value, cultureInfo);
+            return result == null ? "" : result;
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.11.3.0 (NJsonSchema v10.4.4.0 (Newtonsoft.Json v12.0.0.0))")]
+    public partial interface IHistoricalClient : IFavouriteExchangesClient
+    {
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="exchange">The exchange for which to retrieve historical ohlcv data</param>
+        /// <param name="baseTradingSymbol">The base trading symbol that is used by the exchange.</param>
+        /// <param name="quoteTradingSymbol">The quote trading symbol that is used by the exchange.</param>
+        /// <param name="startTime">The starting time in ISO 8601</param>
+        /// <param name="endTime">The ending time in ISO 8601</param>
+        /// <param name="limit">The amount of items to return. Must be an integer from 1 to 1000.</param>
+        /// <param name="interval">The interval must be one of the following values 1m, 5m, 15m, 1h, 6h, or 1d) These values correspond to intervals representing one minute, five minutes, fifteen minutes, one hour, six hours, and one day, respectively.</param>
+        /// <returns>The candles.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<Response<System.Collections.Generic.List<HistoricalCandle>>> GetHistoricalCandlesAsync(Exchange exchange, string baseTradingSymbol, string quoteTradingSymbol, System.DateTimeOffset startTime, System.DateTimeOffset endTime, double limit, string interval, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.11.3.0 (NJsonSchema v10.4.4.0 (Newtonsoft.Json v12.0.0.0))")]
+    internal partial class HistoricalClient : AuthorisedClient, IHistoricalClient
+    {
+        private System.Net.Http.HttpClient _httpClient;
+        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+    
+        public HistoricalClient(ClientConfigurator configuration, System.Net.Http.HttpClient httpClient) : base(configuration)
+        {
+            _httpClient = httpClient;
+            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+        }
+    
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        {
+            var settings = new Newtonsoft.Json.JsonSerializerSettings();
+            UpdateJsonSerializerSettings(settings);
+            return settings;
+        }
+    
+        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
+    
+        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
+    
+    
+        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
+        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
+        partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="exchange">The exchange for which to retrieve historical ohlcv data</param>
+        /// <param name="baseTradingSymbol">The base trading symbol that is used by the exchange.</param>
+        /// <param name="quoteTradingSymbol">The quote trading symbol that is used by the exchange.</param>
+        /// <param name="startTime">The starting time in ISO 8601</param>
+        /// <param name="endTime">The ending time in ISO 8601</param>
+        /// <param name="limit">The amount of items to return. Must be an integer from 1 to 1000.</param>
+        /// <param name="interval">The interval must be one of the following values 1m, 5m, 15m, 1h, 6h, or 1d) These values correspond to intervals representing one minute, five minutes, fifteen minutes, one hour, six hours, and one day, respectively.</param>
+        /// <returns>The candles.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public async System.Threading.Tasks.Task<Response<System.Collections.Generic.List<HistoricalCandle>>> GetHistoricalCandlesAsync(Exchange exchange, string baseTradingSymbol, string quoteTradingSymbol, System.DateTimeOffset startTime, System.DateTimeOffset endTime, double limit, string interval, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            if (exchange == null)
+                throw new System.ArgumentNullException("exchange");
+    
+            if (baseTradingSymbol == null)
+                throw new System.ArgumentNullException("baseTradingSymbol");
+    
+            if (quoteTradingSymbol == null)
+                throw new System.ArgumentNullException("quoteTradingSymbol");
+    
+            if (startTime == null)
+                throw new System.ArgumentNullException("startTime");
+    
+            if (endTime == null)
+                throw new System.ArgumentNullException("endTime");
+    
+            if (limit == null)
+                throw new System.ArgumentNullException("limit");
+    
+            if (interval == null)
+                throw new System.ArgumentNullException("interval");
+    
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v1/historical/candles?");
+            urlBuilder_.Append(System.Uri.EscapeDataString("exchange") + "=").Append(System.Uri.EscapeDataString(ConvertToString(exchange, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append(System.Uri.EscapeDataString("baseTradingSymbol") + "=").Append(System.Uri.EscapeDataString(ConvertToString(baseTradingSymbol, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append(System.Uri.EscapeDataString("quoteTradingSymbol") + "=").Append(System.Uri.EscapeDataString(ConvertToString(quoteTradingSymbol, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append(System.Uri.EscapeDataString("startTime") + "=").Append(System.Uri.EscapeDataString(startTime.ToString("yyyy-MM-ddTHH:mm:ssZ", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append(System.Uri.EscapeDataString("endTime") + "=").Append(System.Uri.EscapeDataString(endTime.ToString("yyyy-MM-ddTHH:mm:ssZ", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append(System.Uri.EscapeDataString("limit") + "=").Append(System.Uri.EscapeDataString(ConvertToString(limit, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append(System.Uri.EscapeDataString("interval") + "=").Append(System.Uri.EscapeDataString(ConvertToString(interval, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Length--;
+    
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+    
+                    PrepareRequest(client_, request_, urlBuilder_);
+    
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+    
+                    PrepareRequest(client_, request_, url_);
+    
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+    
+                        ProcessResponse(client_, response_);
+    
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.List<HistoricalCandle>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return new Response<System.Collections.Generic.List<HistoricalCandle>>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         {

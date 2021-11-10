@@ -1,13 +1,16 @@
 ﻿
-using System.Net.Http;
-
 namespace Trakx.Shrimpy.ApiClient
 {
     internal partial class AccountsClient
     {
-#pragma warning disable S1172, IDE0060 // Unused method parameters should be removed
-        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url)
-#pragma warning restore S1172, IDE0060 // Unused method parameters should be removed
+        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url)
+        {
+            CredentialProvider.AddCredentials(request);
+        }
+    }
+    internal partial class HistoricalClient
+    {
+        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url)
         {
             CredentialProvider.AddCredentials(request);
         }

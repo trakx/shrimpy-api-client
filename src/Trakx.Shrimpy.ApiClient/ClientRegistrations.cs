@@ -43,6 +43,21 @@ namespace Trakx.Shrimpy.ApiClient
                         })
                     .WithPolicyKey("Trakx.Shrimpy.ApiClient.AccountsClient"));
 
+                                
+            services.AddHttpClient<IHistoricalClient, HistoricalClient>("Trakx.Shrimpy.ApiClient.HistoricalClient")
+                .AddPolicyHandler((s, request) => 
+                    Policy<HttpResponseMessage>
+                    .Handle<ApiException>()
+                    .Or<HttpRequestException>()
+                    .OrTransientHttpStatusCode()
+                    .WaitAndRetryAsync(delay,
+                        onRetry: (result, timeSpan, retryCount, context) =>
+                        {
+                            var logger = Log.Logger.ForContext<HistoricalClient>();
+                            LogFailure(logger, result, timeSpan, retryCount, context);
+                        })
+                    .WithPolicyKey("Trakx.Shrimpy.ApiClient.HistoricalClient"));
+
         }
     }
 }
