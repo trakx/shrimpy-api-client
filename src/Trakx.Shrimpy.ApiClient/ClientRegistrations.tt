@@ -11,7 +11,7 @@ using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
 using Serilog;
-using Trakx.Utils.Apis;
+using Trakx.Shrimpy.ApiClient.Utils;
 
 <# 
 var nameSpace = "Trakx.Shrimpy.ApiClient";
@@ -64,7 +64,7 @@ namespace <#= nameSpace #>
                     .WaitAndRetryAsync(delay,
                         onRetry: (result, timeSpan, retryCount, context) =>
                         {
-                            s.GetRequiredService<ICredentialsProvider>().AddCredentials(request);
+                            s.GetRequiredService<IShrimpyCredentialsProvider>().AddCredentials(request);
                             var logger = Log.Logger.ForContext<<#= name #>>();
                             LogFailure(logger, result, timeSpan, retryCount, context);
                         })
