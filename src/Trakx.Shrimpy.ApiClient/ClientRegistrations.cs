@@ -55,6 +55,7 @@ namespace Trakx.Shrimpy.ApiClient
                     .WaitAndRetryAsync(delay,
                         onRetry: (result, timeSpan, retryCount, context) =>
                         {
+                            request.Headers.Clear();
                             s.GetRequiredService<IShrimpyCredentialsProvider>().AddCredentials(request);
                             var logger = Log.Logger.ForContext<HistoricalClient>();
                             LogFailure(logger, result, timeSpan, retryCount, context);
