@@ -14,10 +14,10 @@ namespace Trakx.Shrimpy.DeveloperApiClient
         public ClientConfigurator(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            ApiConfiguration = serviceProvider.GetService<IOptions<ShrimpyApiConfiguration>>()!.Value;
+            ApiConfiguration = serviceProvider.GetService<IOptions<ShrimpyDevApiConfiguration>>()!.Value;
         }
 
-        public ShrimpyApiConfiguration ApiConfiguration { get; }
+        public IShrimpyApiConfiguration ApiConfiguration { get; }
 
         public ICredentialsProvider GetCredentialProvider(Type clientType)
         {
@@ -27,7 +27,7 @@ namespace Trakx.Shrimpy.DeveloperApiClient
                 //case nameof(HistoricalClient):
                     return new NoCredentialsProvider();
                 default:
-                    return _serviceProvider.GetService<IShrimpyCredentialsProvider>()!;
+                    return _serviceProvider.GetService<IShrimpyCredentialsProvider<ShrimpyDevApiConfiguration>>()!;
             }
         }
     }

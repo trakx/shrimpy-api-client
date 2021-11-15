@@ -17,7 +17,7 @@ namespace Trakx.Shrimpy.ApiClient
             ApiConfiguration = serviceProvider.GetService<IOptions<ShrimpyApiConfiguration>>()!.Value;
         }
 
-        public ShrimpyApiConfiguration ApiConfiguration { get; }
+        public IShrimpyApiConfiguration ApiConfiguration { get; }
 
         public ICredentialsProvider GetCredentialProvider(Type clientType)
         {
@@ -27,7 +27,7 @@ namespace Trakx.Shrimpy.ApiClient
                 //case nameof(HistoricalClient):
                     return new NoCredentialsProvider();
                 default:
-                    return _serviceProvider.GetService<IShrimpyCredentialsProvider>()!;
+                    return _serviceProvider.GetService<IShrimpyCredentialsProvider<ShrimpyApiConfiguration>>()!;
             }
         }
     }

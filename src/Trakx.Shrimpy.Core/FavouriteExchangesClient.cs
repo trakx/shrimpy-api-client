@@ -21,6 +21,6 @@ namespace Trakx.Shrimpy.Core
             Top12ExchangeIdsAsCsv = string.Join(",", Top12ExchangeIds);
         }
 
-        public ShrimpyApiConfiguration ApiConfiguration { get; init; }
+        public IShrimpyApiConfiguration ApiConfiguration { get; init; }
     }
 }

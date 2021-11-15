@@ -36,12 +36,23 @@ namespace Trakx.Shrimpy.Core.Tests.Integration
                 BaseUrl = "https://api.shrimpy.io"
             };
 
+            var devConfig = new ShrimpyDevApiConfiguration
+            {
+                ApiKey = secrets.ShrimpyApiKey,
+                ApiSecret = secrets.ShrimpyApiSecret,
+                BaseUrl = "https://dev-api.shrimpy.io"
+            };
+
             var serviceCollection = new ServiceCollection();
 
             serviceCollection.AddSingleton(configuration);
-            serviceCollection.AddCoreDependencies(configuration);
-            serviceCollection.AddShrimpyClients();
-            serviceCollection.AddDeveloperClients();
+            serviceCollection.AddCoreDependencies();
+            serviceCollection.AddApiCredentialsProvider<ShrimpyDevApiConfiguration>();
+            serviceCollection.AddApiCredentialsProvider<ShrimpyApiConfiguration>();
+
+
+            serviceCollection.AddShrimpyClients(configuration);
+            serviceCollection.AddDeveloperClients(devConfig);
             ServiceProvider = serviceCollection.BuildServiceProvider();
         }
 

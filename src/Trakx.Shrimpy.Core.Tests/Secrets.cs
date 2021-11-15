@@ -1,4 +1,5 @@
-﻿using Trakx.Utils.Attributes;
+﻿using Trakx.Shrimpy.ApiClient;
+using Trakx.Utils.Attributes;
 using Trakx.Utils.Testing;
 
 namespace Trakx.Shrimpy.Core.Tests

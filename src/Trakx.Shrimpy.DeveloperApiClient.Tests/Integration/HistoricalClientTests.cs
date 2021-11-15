@@ -19,7 +19,7 @@ namespace Trakx.Shrimpy.DeveloperApiClient.Tests.Integration
 
 
         [Fact]
-        public async Task ListAccounts_and_GetAccount_should_return_results()
+        public async Task GetHistoricalCandlesAsync_should_return_results()
         {
             var start = DateTimeOffset.Parse("2021-01-01z");
             var end = start.AddDays(10);

@@ -5,7 +5,7 @@ namespace Trakx.Shrimpy.Core
 {
     public interface IClientConfigurator
     {
-        ShrimpyApiConfiguration ApiConfiguration { get; }
+        IShrimpyApiConfiguration ApiConfiguration { get; }
         ICredentialsProvider GetCredentialProvider(Type clientType);
     }
 }

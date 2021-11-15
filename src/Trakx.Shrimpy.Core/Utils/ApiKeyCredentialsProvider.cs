@@ -12,21 +12,21 @@ using Trakx.Utils.DateTimeHelpers;
 
 namespace Trakx.Shrimpy.Core.Utils
 {
-    public interface IShrimpyCredentialsProvider : ICredentialsProvider { };
-    public class ApiKeyCredentialsProvider : IShrimpyCredentialsProvider, IDisposable
+    public interface IShrimpyCredentialsProvider<TConfig> : ICredentialsProvider where TConfig : class, IShrimpyApiConfiguration { };
+    public class ApiKeyCredentialsProvider<TConfig> : IShrimpyCredentialsProvider<TConfig>, IDisposable where TConfig : class, IShrimpyApiConfiguration
     {
         private const string ApiKeyHeader = "SHRIMPY-API-KEY";
         private const string ApiNonceHeader = "SHRIMPY-API-NONCE";
         private const string ApiSignatureHeader = "SHRIMPY-API-SIGNATURE";
 
-        private readonly ShrimpyApiConfiguration _configuration;
+        private readonly TConfig _configuration;
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly CancellationTokenSource _tokenSource;
         private readonly byte[] _encodingSecret;
 
-        private static readonly ILogger Logger = Log.Logger.ForContext<ApiKeyCredentialsProvider>();
+        private static readonly ILogger Logger = Log.Logger.ForContext<ApiKeyCredentialsProvider<TConfig>>();
 
-        public ApiKeyCredentialsProvider(IOptions<ShrimpyApiConfiguration> configuration,
+        public ApiKeyCredentialsProvider(IOptions<TConfig> configuration,
             IDateTimeProvider dateTimeProvider)
         {
             _configuration = configuration.Value;
