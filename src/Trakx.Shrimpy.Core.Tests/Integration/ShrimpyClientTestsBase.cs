@@ -36,10 +36,11 @@ namespace Trakx.Shrimpy.Core.Tests.Integration
                 BaseUrl = "https://api.shrimpy.io"
             };
 
+            var devSecrets = new SecretsDev();
             var devConfig = new ShrimpyDevApiConfiguration
             {
-                ApiKey = secrets.ShrimpyApiKey,
-                ApiSecret = secrets.ShrimpyApiSecret,
+                ApiKey = devSecrets.ShrimpyApiKey,
+                ApiSecret = devSecrets.ShrimpyApiSecret,
                 BaseUrl = "https://dev-api.shrimpy.io"
             };
 
