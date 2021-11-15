@@ -9,7 +9,6 @@ using Xunit;
 using Xunit.Abstractions;
 using Xunit.Extensions.AssemblyFixture;
 
-[assembly: TestFramework(AssemblyFixtureFramework.TypeName, AssemblyFixtureFramework.AssemblyName)]
 namespace Trakx.Shrimpy.ApiClient.Tests.Integration
 {
     public sealed class AccountsClientTests : ShrimpyClientTestsBase
@@ -19,7 +18,6 @@ namespace Trakx.Shrimpy.ApiClient.Tests.Integration
         {
             _accountsClient = ServiceProvider.GetRequiredService<IAccountsClient>();
         }
-
 
         [Fact]
         public async Task ListAccounts_and_GetAccount_should_return_results()

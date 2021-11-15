@@ -1,14 +1,12 @@
+using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
 using Trakx.Shrimpy.Core.Tests.Integration;
 using Xunit;
 using Xunit.Abstractions;
-using Xunit.Extensions.AssemblyFixture;
 
-[assembly: TestFramework(AssemblyFixtureFramework.TypeName, AssemblyFixtureFramework.AssemblyName)]
 namespace Trakx.Shrimpy.ApiClient.Tests.Integration
 {
     public class MarketDataClientTests : ShrimpyClientTestsBase

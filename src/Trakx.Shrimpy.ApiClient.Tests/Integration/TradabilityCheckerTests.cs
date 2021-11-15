@@ -6,7 +6,6 @@ using Xunit;
 using Xunit.Abstractions;
 using Xunit.Extensions.AssemblyFixture;
 
-[assembly: TestFramework(AssemblyFixtureFramework.TypeName, AssemblyFixtureFramework.AssemblyName)]
 namespace Trakx.Shrimpy.ApiClient.Tests.Integration
 {
     public class TradabilityCheckerTests : ShrimpyClientTestsBase
