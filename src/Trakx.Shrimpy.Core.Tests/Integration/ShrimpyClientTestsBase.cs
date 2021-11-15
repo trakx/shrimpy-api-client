@@ -46,7 +46,6 @@ namespace Trakx.Shrimpy.Core.Tests.Integration
 
             var serviceCollection = new ServiceCollection();
 
-            serviceCollection.AddSingleton(configuration);
             serviceCollection.AddCoreDependencies();
             serviceCollection.AddApiCredentialsProvider<ShrimpyDevApiConfiguration>();
             serviceCollection.AddApiCredentialsProvider<ShrimpyApiConfiguration>();
