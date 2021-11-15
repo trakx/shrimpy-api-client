@@ -22,8 +22,8 @@ namespace Trakx.Shrimpy.ApiClient.Tests.Integration
             var tickers = await _historicalClient.GetHistoricalCandlesAsync(Exchange.Binance,
                 "btc",
                 "usdc",
+                DateTimeOffset.Now.AddMinutes(-10),
                 DateTimeOffset.Now,
-                DateTimeOffset.Now.AddMinutes(2),
                 10,
                 "1m");
             tickers.Should().NotBeNull();
