@@ -11,7 +11,7 @@ namespace Trakx.Shrimpy.DeveloperApiClient
 {
     public static partial class AddShrimpyDeveloperClientExtensions
     {
-        public static void AddClients(this IServiceCollection services)
+        private static void AddClients(this IServiceCollection services)
         {
             var delay = Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromMilliseconds(100), retryCount: 5);
             

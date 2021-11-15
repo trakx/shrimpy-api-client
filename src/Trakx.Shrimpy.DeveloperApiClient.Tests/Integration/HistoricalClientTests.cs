@@ -22,9 +22,9 @@ namespace Trakx.Shrimpy.DeveloperApiClient.Tests.Integration
         public async Task GetHistoricalCandlesAsync_should_return_results()
         {
             var start = DateTimeOffset.Parse("2021-01-01z");
-            var end = start.AddDays(10);
+            var end = start.AddDays(2);
             var candles = (await _historicalClient
-                .GetHistoricalCandlesAsync(Exchange.Binance, "bnb", "usd", start, end, 100, Interval._1d))
+                .GetHistoricalCandlesAsync(Exchange.Bittrex, "LTC", "BTC", start, end, 100, Interval._1d))
                 .Result;
             var first = candles.First();
 
