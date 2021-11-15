@@ -1,10 +1,11 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using Trakx.Shrimpy.ApiClient;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Trakx.Shrimpy.ApiClient.Tests.Integration
+namespace Trakx.Shrimpy.Core.Tests.Integration
 {
     [Collection(nameof(ApiTestCollection))]
     public class ShrimpyClientTestsBase

@@ -5,7 +5,7 @@ using Trakx.Shrimpy.Core;
 using Trakx.Shrimpy.Core.Utils;
 using Trakx.Utils.Apis;
 
-namespace Trakx.Shrimpy.ApiClient
+namespace Trakx.Shrimpy.DeveloperApiClient
 {
     internal class ClientConfigurator : IClientConfigurator
     {

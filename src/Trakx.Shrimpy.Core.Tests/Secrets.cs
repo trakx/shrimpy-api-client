@@ -1,7 +1,7 @@
 ﻿using Trakx.Utils.Attributes;
 using Trakx.Utils.Testing;
 
-namespace Trakx.Shrimpy.ApiClient.Tests
+namespace Trakx.Shrimpy.Core.Tests
 {
     public record Secrets : SecretsBase
     {
@@ -10,5 +10,5 @@ namespace Trakx.Shrimpy.ApiClient.Tests
         [SecretEnvironmentVariable(nameof(ShrimpyApiConfiguration), nameof(ShrimpyApiConfiguration.ApiSecret))]
         public string? ShrimpyApiSecret { get; init; }
     }
-    
+
 }

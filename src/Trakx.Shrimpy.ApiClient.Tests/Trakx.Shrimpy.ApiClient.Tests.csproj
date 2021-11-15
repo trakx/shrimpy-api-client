@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Trakx.Shrimpy.ApiClient\Trakx.Shrimpy.ApiClient.csproj" />
+    <ProjectReference Include="..\Trakx.Shrimpy.Core.Tests\Trakx.Shrimpy.Core.Tests.csproj" />
   </ItemGroup>
 
 </Project>

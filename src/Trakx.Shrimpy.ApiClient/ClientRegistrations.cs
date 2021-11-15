@@ -5,7 +5,7 @@ using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
 using Serilog;
-using Trakx.Shrimpy.ApiClient.Utils;
+using Trakx.Shrimpy.Core.Utils;
 
 namespace Trakx.Shrimpy.ApiClient
 {
@@ -14,9 +14,9 @@ namespace Trakx.Shrimpy.ApiClient
         private static void AddClients(this IServiceCollection services)
         {
             var delay = Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromMilliseconds(100), retryCount: 10, fastFirst: true);
-                                    
+            
             services.AddHttpClient<IMarketDataClient, MarketDataClient>("Trakx.Shrimpy.ApiClient.MarketDataClient")
-                .AddPolicyHandler((s, request) => 
+                .AddPolicyHandler((s, request) =>
                     Policy<HttpResponseMessage>
                     .Handle<ApiException>()
                     .Or<HttpRequestException>()
@@ -29,9 +29,9 @@ namespace Trakx.Shrimpy.ApiClient
                         })
                     .WithPolicyKey("Trakx.Shrimpy.ApiClient.MarketDataClient"));
 
-                                    
+            
             services.AddHttpClient<IAccountsClient, AccountsClient>("Trakx.Shrimpy.ApiClient.AccountsClient")
-                .AddPolicyHandler((s, request) => 
+                .AddPolicyHandler((s, request) =>
                     Policy<HttpResponseMessage>
                     .Handle<ApiException>()
                     .Or<HttpRequestException>()
@@ -44,24 +44,6 @@ namespace Trakx.Shrimpy.ApiClient
                         })
                     .WithPolicyKey("Trakx.Shrimpy.ApiClient.AccountsClient"));
 
-            
-                                    
-            services.AddHttpClient<IHistoricalClient, HistoricalClient>("Trakx.Shrimpy.ApiClient.HistoricalClient")
-                .AddPolicyHandler((s, request) => 
-                    Policy<HttpResponseMessage>
-                    .Handle<ApiException>()
-                    .Or<HttpRequestException>()
-                    .OrTransientHttpStatusCode()
-                    .WaitAndRetryAsync(delay,
-                        onRetry: (result, timeSpan, retryCount, context) =>
-                        {
-                            request.Headers.Clear();
-                            s.GetRequiredService<IShrimpyCredentialsProvider>().AddCredentials(request);
-                            var logger = Log.Logger.ForContext<HistoricalClient>();
-                            LogFailure(logger, result, timeSpan, retryCount, context);
-                        })
-                    .WithPolicyKey("Trakx.Shrimpy.ApiClient.HistoricalClient"));
-            
-        }
+                    }
     }
 }

@@ -18,7 +18,7 @@ paths:
   "/v1/{exchange}/ticker":
     get:
       operationId: GetTicker
-      tags: 
+      tags:
         - MarketData
       description: This endpoint retrieves all Shrimpy supported exchange assets for a particular exchange along with pricing information. The pricing information is updated once per minute.
       parameters:
@@ -40,7 +40,7 @@ paths:
   "/v1/accounts":
     get:
       operationId: ListAccounts
-      tags: 
+      tags:
         - Accounts
       description: This endpoint retrieves all linked exchange accounts.
       responses:
@@ -52,12 +52,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Account'
-      security: 
+      security:
       - ApiKeyAuth: []
   "/v1/accounts/{exchangeAccountId}":
     get:
       operationId: GetAccount
-      tags: 
+      tags:
         - Accounts
       description: This endpoint returns the current status of a linked exchange account.
       parameters:
@@ -76,12 +76,12 @@ paths:
               schema:
                 type:
                 $ref: '#/components/schemas/Account'
-      security: 
+      security:
       - ApiKeyAuth: []
   "/v1/accounts/{exchangeAccountId}/balance":
     get:
       operationId: GetBalance
-      tags: 
+      tags:
         - Accounts
       description: This endpoint retrieves detailed balance data for an exchange account. By default, the most recent balance is returned. Balance is retrieved from the exchange every 15 minutes for each account, as well as immediately after rebalance operations and trade operations.
       parameters:
@@ -106,70 +106,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetBalanceResponse'
-      security: 
-      - ApiKeyAuth: []  
-  "/v1/historical/candles":
-    get:
-      operationId: GetHistoricalCandles
-      tags: 
-        - Historical
-      description: This endpoint retrieves historical candlestick (ohlcv) data based on the exchange, start and end times, and currency pair passed in. Data is returned as lists of Historical-Candlestick objects as demonstrated in the examples.
-      parameters:
-      - in: query
-        name: exchange
-        description: The exchange for which to retrieve historical ohlcv data
-        required: true
-        schema:
-          $ref: '#/components/schemas/Exchange'
-      - in: query
-        name: baseTradingSymbol
-        required: true
-        description: The base trading symbol that is used by the exchange.
-        schema:
-          type: string
-      - in: query
-        name: quoteTradingSymbol
-        required: true
-        description: The quote trading symbol that is used by the exchange.
-        schema:
-          type: string
-      - in: query
-        name: startTime
-        required: true
-        description: The starting time in ISO 8601
-        schema:
-          type: string
-          format: date-time
-      - in: query
-        name: endTime
-        required: true
-        description: The ending time in ISO 8601
-        schema:
-          type: string
-          format: date-time
-      - in: query
-        name: limit
-        required: true
-        description: The amount of items to return. Must be an integer from 1 to 1000.
-        schema:
-          type: number
-          format: int32
-      - in: query
-        name: interval
-        required: true
-        description: The interval must be one of the following values 1m, 5m, 15m, 1h, 6h, or 1d) These values correspond to intervals representing one minute, five minutes, fifteen minutes, one hour, six hours, and one day, respectively.
-        schema:
-          type: string
-      responses:
-        "200":
-          description: The candles.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetHistoricalCandlesResponse'
-      security: 
-      - ApiKeyAuth: []  
-    
+      security:
+      - ApiKeyAuth: []
 
 components:
   securitySchemes:
@@ -206,7 +144,7 @@ components:
       description: An Exchange API Error object represents an issue with user exchange api keys.
       properties:
         code:
-          description: > 
+          description: >
             The error code associated with the exchange error.
             * 1001 - Invalid IP whitelist: The exchange rejected the request from our API servers due to a user's IP whitelist on the exchange. This can happen if a user enables IP whitelisting on the exchange and fails to whitelist all 4 of the IP addresses provisioned by Shrimpy for the user.
             * 1002 - -Invalid API keys: The API keys are no longer valid. This can happen if the user deletes their exchange API keys from the exchange.
@@ -227,7 +165,7 @@ components:
           description: The name of the asset
           type: string
           example: Bitcoin
-        symbol: 
+        symbol:
           description: The symbol of the asset on the exchange
           type: string
           example: BTC
@@ -289,12 +227,12 @@ components:
             description: The amount of the asset on the exchange.
             type: number
             example: 2306
-          btcValue: 
+          btcValue:
             description: The value of the asset on the exchange, in Bitcoin. This value is computed when the balance data is collected.
             type: number
             format: double
             example: 0.33486579
-          usdValue: 
+          usdValue:
             description: The value of the asset on the exchange, in United States Dollars. This value is computed when the balance data is collected.
             type: number
             format: double
@@ -313,37 +251,6 @@ components:
             type: array
             items:
               $ref: "#/components/schemas/Balance"
-    GetHistoricalCandlesResponse:
-       type: array
-       description: An array of histroical candles
-       items:
-        $ref: "#/components/schemas/HistoricalCandle"
-    HistoricalCandle:
-        type: object
-        description: A candlestick object contains information about trades that executed over a particular time frame. This information can be useful when illustrating movements in price over time.
-        properties:
-            open:
-              type: string
-              description: The price of the first trade in the time frame
-            high:
-              type: string
-              description: The highest price of any trade in the time frame
-            low:
-              type: string
-              description: The lowest price of any trade in the time frame
-            close:
-              type: string
-              description: The price of the last trade in the time frame
-            volume:
-              type: string
-              description: The total amount of baseAsset traded in the time frame. (e.g. XLM for a XLM-BTC pair)
-            quoteVolume:
-              type: number
-              description: The total volume in quoteAsset traded in the time frame.
-            time:
-              type: string
-              format: date-time
-              description: The start time of the time frame, in UTC. The duration of the time frame will depend on the interval associated with the candlestick.
     ExchangeInfo:
       type: object
       description: The exchange info type contains basic information about a particular exchange.

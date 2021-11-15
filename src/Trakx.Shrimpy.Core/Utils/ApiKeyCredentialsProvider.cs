@@ -10,23 +10,23 @@ using Serilog;
 using Trakx.Utils.Apis;
 using Trakx.Utils.DateTimeHelpers;
 
-namespace Trakx.Shrimpy.ApiClient.Utils
+namespace Trakx.Shrimpy.Core.Utils
 {
     public interface IShrimpyCredentialsProvider : ICredentialsProvider { };
     public class ApiKeyCredentialsProvider : IShrimpyCredentialsProvider, IDisposable
     {
-        internal const string ApiKeyHeader = "SHRIMPY-API-KEY";
-        internal const string ApiNonceHeader = "SHRIMPY-API-NONCE";
-        internal const string ApiSignatureHeader = "SHRIMPY-API-SIGNATURE";
+        private const string ApiKeyHeader = "SHRIMPY-API-KEY";
+        private const string ApiNonceHeader = "SHRIMPY-API-NONCE";
+        private const string ApiSignatureHeader = "SHRIMPY-API-SIGNATURE";
 
         private readonly ShrimpyApiConfiguration _configuration;
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly CancellationTokenSource _tokenSource;
         private readonly byte[] _encodingSecret;
 
-        private static readonly ILogger Logger = Log.Logger.ForContext<MarketDataClient>();
+        private static readonly ILogger Logger = Log.Logger.ForContext<ApiKeyCredentialsProvider>();
 
-        public ApiKeyCredentialsProvider(IOptions<ShrimpyApiConfiguration> configuration, 
+        public ApiKeyCredentialsProvider(IOptions<ShrimpyApiConfiguration> configuration,
             IDateTimeProvider dateTimeProvider)
         {
             _configuration = configuration.Value;
@@ -36,7 +36,7 @@ namespace Trakx.Shrimpy.ApiClient.Utils
             _encodingSecret = Convert.FromBase64String(_configuration.ApiSecret);
         }
 
-        
+
         #region Implementation of ICredentialsProvider
 
         /// <inheritdoc />
@@ -69,7 +69,7 @@ namespace Trakx.Shrimpy.ApiClient.Utils
             .ToString(CultureInfo.InvariantCulture);
         private string GetSignature(string preHash) => Convert.ToBase64String(new HMACSHA256(_encodingSecret)
             .ComputeHash(Encoding.UTF8.GetBytes(preHash)));
-        
+
         #region IDisposable
 
         protected virtual void Dispose(bool disposing)

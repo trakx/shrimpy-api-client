@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using Trakx.Shrimpy.Core.Tests.Integration;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -24,7 +25,7 @@ namespace Trakx.Shrimpy.ApiClient.Tests.Integration
             var accounts = (await _accountsClient.ListAccountsAsync()).Result;
             var first = accounts.First();
 
-            Logger.Information("Found accounts: {accounts}", 
+            Logger.Information("Found accounts: {accounts}",
                 JsonSerializer.Serialize(accounts));
 
             var account = (await _accountsClient.GetAccountAsync(first.Id)).Result;

@@ -11,9 +11,9 @@ using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
 using Serilog;
-using Trakx.Shrimpy.ApiClient.Utils;
+using Trakx.Shrimpy.Core.Utils;
 
-<# 
+<#
 var nameSpace = "Trakx.Shrimpy.ApiClient";
 #>
 namespace <#= nameSpace #>
@@ -23,15 +23,15 @@ namespace <#= nameSpace #>
         private static void AddClients(this IServiceCollection services)
         {
             var delay = Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromMilliseconds(100), retryCount: 10, fastFirst: true);
-            <# 
+            <#
             var clientNames = new [] { /*"ExchangesClient",*/ "MarketDataClient", "AccountsClient" };
 
             foreach(var name in clientNames)
             {
             #>
-                        
+
             services.AddHttpClient<I<#= name #>, <#= name #>>("<#= nameSpace #>.<#= name #>")
-                .AddPolicyHandler((s, request) => 
+                .AddPolicyHandler((s, request) =>
                     Policy<HttpResponseMessage>
                     .Handle<ApiException>()
                     .Or<HttpRequestException>()
@@ -47,32 +47,6 @@ namespace <#= nameSpace #>
             <#
             }
             #>
-
-            <# 
-            var authenticatedClients = new [] { "HistoricalClient" };
-
-            foreach(var name in authenticatedClients)
-            {
-            #>
-                        
-            services.AddHttpClient<I<#= name #>, <#= name #>>("<#= nameSpace #>.<#= name #>")
-                .AddPolicyHandler((s, request) => 
-                    Policy<HttpResponseMessage>
-                    .Handle<ApiException>()
-                    .Or<HttpRequestException>()
-                    .OrTransientHttpStatusCode()
-                    .WaitAndRetryAsync(delay,
-                        onRetry: (result, timeSpan, retryCount, context) =>
-                        {
-                            request.Headers.Clear();
-                            s.GetRequiredService<IShrimpyCredentialsProvider>().AddCredentials(request);
-                            var logger = Log.Logger.ForContext<<#= name #>>();
-                            LogFailure(logger, result, timeSpan, retryCount, context);
-                        })
-                    .WithPolicyKey("<#= nameSpace #>.<#= name #>"));
-           <#
-            }
-            #> 
         }
     }
 }
