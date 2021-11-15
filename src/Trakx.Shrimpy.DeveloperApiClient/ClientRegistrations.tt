@@ -14,17 +14,17 @@ using Serilog;
 using Trakx.Shrimpy.Core;
 
 <#
-var nameSpace = "Trakx.Shrimpy.ApiClient";
+var nameSpace = "Trakx.Shrimpy.DeveloperApiClient";
 #>
 namespace <#= nameSpace #>
 {
-    public static partial class AddShrimpyClientExtensions
+    public static partial class AddShrimpyDeveloperClientExtensions
     {
-        private static void AddClients(this IServiceCollection services)
+        public static void AddClients(this IServiceCollection services)
         {
-            var delay = Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromMilliseconds(100), retryCount: 10, fastFirst: true);
+            var delay = Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromMilliseconds(100), retryCount: 5);
             <#
-            var clientNames = new [] { /*"ExchangesClient",*/ "MarketDataClient", "AccountsClient" };
+            var clientNames = new [] { "HistoricalClient" };
 
             foreach(var name in clientNames)
             {

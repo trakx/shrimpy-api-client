@@ -5,11 +5,11 @@ using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
 using Serilog;
-using Trakx.Shrimpy.Core.Utils;
+using Trakx.Shrimpy.Core;
 
 namespace Trakx.Shrimpy.ApiClient
 {
-    public static partial class AddShrimpyClientExtension
+    public static partial class AddShrimpyClientExtensions
     {
         private static void AddClients(this IServiceCollection services)
         {
@@ -25,7 +25,7 @@ namespace Trakx.Shrimpy.ApiClient
                         onRetry: (result, timeSpan, retryCount, context) =>
                         {
                             var logger = Log.Logger.ForContext<MarketDataClient>();
-                            LogFailure(logger, result, timeSpan, retryCount, context);
+                            logger.LogFailure(result, timeSpan, retryCount, context);
                         })
                     .WithPolicyKey("Trakx.Shrimpy.ApiClient.MarketDataClient"));
 
@@ -40,7 +40,7 @@ namespace Trakx.Shrimpy.ApiClient
                         onRetry: (result, timeSpan, retryCount, context) =>
                         {
                             var logger = Log.Logger.ForContext<AccountsClient>();
-                            LogFailure(logger, result, timeSpan, retryCount, context);
+                            logger.LogFailure(result, timeSpan, retryCount, context);
                         })
                     .WithPolicyKey("Trakx.Shrimpy.ApiClient.AccountsClient"));
 

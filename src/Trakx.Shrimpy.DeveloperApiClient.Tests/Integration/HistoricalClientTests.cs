@@ -6,7 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Trakx.Shrimpy.Core.Tests.Integration;
 using Xunit;
 using Xunit.Abstractions;
+using Xunit.Extensions.AssemblyFixture;
 
+[assembly: TestFramework(AssemblyFixtureFramework.TypeName, AssemblyFixtureFramework.AssemblyName)]
 namespace Trakx.Shrimpy.DeveloperApiClient.Tests.Integration
 {
     public sealed class HistoricalClientTests : ShrimpyClientTestsBase

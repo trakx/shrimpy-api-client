@@ -2,13 +2,14 @@ using System;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Trakx.Shrimpy.ApiClient;
+using Trakx.Shrimpy.DeveloperApiClient;
 using Xunit;
 using Xunit.Abstractions;
+using Xunit.Extensions.AssemblyFixture;
 
 namespace Trakx.Shrimpy.Core.Tests.Integration
 {
-    [Collection(nameof(ApiTestCollection))]
-    public class ShrimpyClientTestsBase
+    public class ShrimpyClientTestsBase : IAssemblyFixture<ShrimpyApiFixture>
     {
         protected ServiceProvider ServiceProvider;
         protected ILogger Logger;
@@ -19,14 +20,6 @@ namespace Trakx.Shrimpy.Core.Tests.Integration
 
             ServiceProvider = apiFixture.ServiceProvider;
         }
-    }
-
-    [CollectionDefinition(nameof(ApiTestCollection))]
-    public class ApiTestCollection : ICollectionFixture<ShrimpyApiFixture>
-    {
-        // This class has no code, and is never created. Its purpose is simply
-        // to be the place to apply [CollectionDefinition] and all the
-        // ICollectionFixture<> interfaces.
     }
 
     public class ShrimpyApiFixture : IDisposable
@@ -46,8 +39,9 @@ namespace Trakx.Shrimpy.Core.Tests.Integration
             var serviceCollection = new ServiceCollection();
 
             serviceCollection.AddSingleton(configuration);
-            serviceCollection.AddShrimpyClient(configuration);
-
+            serviceCollection.AddCoreDependencies(configuration);
+            serviceCollection.AddShrimpyClients();
+            serviceCollection.AddDeveloperClients();
             ServiceProvider = serviceCollection.BuildServiceProvider();
         }
 
