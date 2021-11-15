@@ -6,6 +6,7 @@ using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
 using Serilog;
 using Trakx.Shrimpy.Core;
+using Trakx.Utils.Apis;
 
 namespace Trakx.Shrimpy.DeveloperApiClient
 {
@@ -26,6 +27,10 @@ namespace Trakx.Shrimpy.DeveloperApiClient
                         {
                             var logger = Log.Logger.ForContext<HistoricalClient>();
                             logger.LogFailure(result, timeSpan, retryCount, context);
+
+                            var credProvider = s.GetRequiredService<ICredentialsProvider>();
+                            request.Headers.Clear();
+                            credProvider.AddCredentials(request);
                         })
                     .WithPolicyKey("Trakx.Shrimpy.DeveloperApiClient.HistoricalClient"));
 

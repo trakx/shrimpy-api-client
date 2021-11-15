@@ -21,14 +21,11 @@ namespace Trakx.Shrimpy.DeveloperApiClient
 
         public ICredentialsProvider GetCredentialProvider(Type clientType)
         {
-            switch (clientType.Name)
+            return clientType.Name switch
             {
-                case nameof(MarketDataClient):
-                //case nameof(HistoricalClient):
-                    return new NoCredentialsProvider();
-                default:
-                    return _serviceProvider.GetService<IShrimpyCredentialsProvider<ShrimpyDevApiConfiguration>>()!;
-            }
+                nameof(MarketDataClient) => new NoCredentialsProvider(),//case nameof(HistoricalClient):
+                _ => _serviceProvider.GetService<IShrimpyCredentialsProvider<ShrimpyDevApiConfiguration>>()!,
+            };
         }
     }
 }

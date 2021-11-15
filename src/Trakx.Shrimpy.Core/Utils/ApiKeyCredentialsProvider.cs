@@ -65,7 +65,7 @@ namespace Trakx.Shrimpy.Core.Utils
         }
         #endregion
 
-        private string GetNonce() => _dateTimeProvider.UtcNowAsOffset.ToUnixTimeMilliseconds()
+        private string GetNonce() => _dateTimeProvider.UtcNowAsOffset.Ticks
             .ToString(CultureInfo.InvariantCulture);
         private string GetSignature(string preHash) => Convert.ToBase64String(new HMACSHA256(_encodingSecret)
             .ComputeHash(Encoding.UTF8.GetBytes(preHash)));

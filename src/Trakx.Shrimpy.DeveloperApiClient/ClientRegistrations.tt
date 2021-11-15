@@ -12,6 +12,7 @@ using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
 using Serilog;
 using Trakx.Shrimpy.Core;
+using Trakx.Utils.Apis;
 
 <#
 var nameSpace = "Trakx.Shrimpy.DeveloperApiClient";
@@ -41,6 +42,10 @@ namespace <#= nameSpace #>
                         {
                             var logger = Log.Logger.ForContext<<#= name #>>();
                             logger.LogFailure(result, timeSpan, retryCount, context);
+
+                            var credProvider = s.GetRequiredService<ICredentialsProvider>();
+                            request.Headers.Clear();
+                            credProvider.AddCredentials(request);
                         })
                     .WithPolicyKey("<#= nameSpace #>.<#= name #>"));
 
