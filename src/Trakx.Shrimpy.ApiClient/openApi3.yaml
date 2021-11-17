@@ -12,8 +12,6 @@ tags:
     description: "Endpoints related to getting details about trading accounts"
   - name: MarketData
     description: "The MarketData endpoint provide free access to market data information. They do not require credits to be used. API Keys are not required to use Public endpoints. However, requests that do not specify an API key in the header will be rate limited to 10 requests per minute per IP."
-  - name: Historical
-    description: "The Historical endpoint provides paid access to historical data. They require credits to be used."
 paths:
   "/v1/{exchange}/ticker":
     get:
