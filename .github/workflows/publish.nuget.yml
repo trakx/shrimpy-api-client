@@ -20,6 +20,7 @@ env:
   SOLUTION_PATH: "src/Trakx.Shrimpy.ApiClient.sln"
   API_PROJECT_PATH: "src/Trakx.Shrimpy.ApiClient/Trakx.Shrimpy.ApiClient.csproj"
   DEV_API_PROJECT_PATH: "src/Trakx.Shrimpy.DeveloperApiClient/Trakx.Shrimpy.DeveloperApiClient.csproj"
+  CORE_PROJECT_PATH: "src/Trakx.Shrimpy.Core/Trakx.Shrimpy.Core.csproj"
   ShrimpyApiConfiguration__ApiKey: ${{secrets.SHRIMPY_API_KEY}}
   ShrimpyApiConfiguration__ApiSecret: ${{secrets.SHRIMPY_API_SECRET}}
   ShrimpyDevApiConfiguration__ApiKey: ${{secrets.SHRIMPY_DEV_API_KEY}}
@@ -97,6 +98,8 @@ jobs:
           dotnet pack ${{env.API_PROJECT_PATH}} --no-build --configuration ${{ steps.comp-mode.outputs.compilationMode }} \
             --output ./nuget/ -p:PackageVersion=${{ steps.bumpSemver.outputs.new_tag }} --include-symbols --include-source
           dotnet pack ${{env.DEV_API_PROJECT_PATH}} --no-build --configuration ${{ steps.comp-mode.outputs.compilationMode }} \
+            --output ./nuget/ -p:PackageVersion=${{ steps.bumpSemver.outputs.new_tag }} --include-symbols --include-source
+          dotnet pack ${{env.CORE_PROJECT_PATH}} --no-build --configuration ${{ steps.comp-mode.outputs.compilationMode }} \
             --output ./nuget/ -p:PackageVersion=${{ steps.bumpSemver.outputs.new_tag }} --include-symbols --include-source
 
       - name: Publish
