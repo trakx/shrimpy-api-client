@@ -20,7 +20,7 @@ env:
   SOLUTION_PATH: "src/Trakx.Shrimpy.ApiClient.sln"
   API_PROJECT_PATH: "src/Trakx.Shrimpy.ApiClient/Trakx.Shrimpy.ApiClient.csproj"
   DEV_API_PROJECT_PATH: "src/Trakx.Shrimpy.DeveloperApiClient/Trakx.Shrimpy.DeveloperApiClient.csproj"
-  CORE_PROJECT_PATH: "src/Trakx.Shrimpy.DeveloperApiClient/Trakx.Shrimpy.Core.csproj"
+  CORE_PROJECT_PATH: "src/Trakx.Shrimpy.Core/Trakx.Shrimpy.Core.csproj"
   ShrimpyApiConfiguration__ApiKey: ${{secrets.SHRIMPY_API_KEY}}
   ShrimpyApiConfiguration__ApiSecret: ${{secrets.SHRIMPY_API_SECRET}}
   ShrimpyDevApiConfiguration__ApiKey: ${{secrets.SHRIMPY_DEV_API_KEY}}
