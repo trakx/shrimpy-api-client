@@ -16,7 +16,7 @@ paths:
   "/v1/{exchange}/ticker":
     get:
       operationId: GetTicker
-      tags: 
+      tags:
         - MarketData
       description: This endpoint retrieves all Shrimpy supported exchange assets for a particular exchange along with pricing information. The pricing information is updated once per minute.
       parameters:
@@ -38,7 +38,7 @@ paths:
   "/v1/accounts":
     get:
       operationId: ListAccounts
-      tags: 
+      tags:
         - Accounts
       description: This endpoint retrieves all linked exchange accounts.
       responses:
@@ -50,12 +50,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Account'
-      security: 
+      security:
       - ApiKeyAuth: []
   "/v1/accounts/{exchangeAccountId}":
     get:
       operationId: GetAccount
-      tags: 
+      tags:
         - Accounts
       description: This endpoint returns the current status of a linked exchange account.
       parameters:
@@ -74,12 +74,12 @@ paths:
               schema:
                 type:
                 $ref: '#/components/schemas/Account'
-      security: 
+      security:
       - ApiKeyAuth: []
   "/v1/accounts/{exchangeAccountId}/balance":
     get:
       operationId: GetBalance
-      tags: 
+      tags:
         - Accounts
       description: This endpoint retrieves detailed balance data for an exchange account. By default, the most recent balance is returned. Balance is retrieved from the exchange every 15 minutes for each account, as well as immediately after rebalance operations and trade operations.
       parameters:
@@ -104,8 +104,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetBalanceResponse'
-      security: 
-      - ApiKeyAuth: []  
+      security:
+      - ApiKeyAuth: []
 
 components:
   securitySchemes:
@@ -142,7 +142,7 @@ components:
       description: An Exchange API Error object represents an issue with user exchange api keys.
       properties:
         code:
-          description: > 
+          description: >
             The error code associated with the exchange error.
             * 1001 - Invalid IP whitelist: The exchange rejected the request from our API servers due to a user's IP whitelist on the exchange. This can happen if a user enables IP whitelisting on the exchange and fails to whitelist all 4 of the IP addresses provisioned by Shrimpy for the user.
             * 1002 - -Invalid API keys: The API keys are no longer valid. This can happen if the user deletes their exchange API keys from the exchange.
@@ -163,7 +163,7 @@ components:
           description: The name of the asset
           type: string
           example: Bitcoin
-        symbol: 
+        symbol:
           description: The symbol of the asset on the exchange
           type: string
           example: BTC
@@ -225,12 +225,12 @@ components:
             description: The amount of the asset on the exchange.
             type: number
             example: 2306
-          btcValue: 
+          btcValue:
             description: The value of the asset on the exchange, in Bitcoin. This value is computed when the balance data is collected.
             type: number
             format: double
             example: 0.33486579
-          usdValue: 
+          usdValue:
             description: The value of the asset on the exchange, in United States Dollars. This value is computed when the balance data is collected.
             type: number
             format: double

@@ -1,8 +1,9 @@
+using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
+using Trakx.Shrimpy.Core.Tests.Integration;
 using Xunit;
 using Xunit.Abstractions;
 

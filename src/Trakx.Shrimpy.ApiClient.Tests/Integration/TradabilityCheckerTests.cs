@@ -1,8 +1,10 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
+using Trakx.Shrimpy.Core.Tests.Integration;
 using Xunit;
 using Xunit.Abstractions;
+using Xunit.Extensions.AssemblyFixture;
 
 namespace Trakx.Shrimpy.ApiClient.Tests.Integration
 {

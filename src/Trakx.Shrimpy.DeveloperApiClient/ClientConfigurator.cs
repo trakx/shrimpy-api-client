@@ -5,7 +5,7 @@ using Trakx.Shrimpy.Core;
 using Trakx.Shrimpy.Core.Utils;
 using Trakx.Utils.Apis;
 
-namespace Trakx.Shrimpy.ApiClient
+namespace Trakx.Shrimpy.DeveloperApiClient
 {
     internal class ClientConfigurator : IClientConfigurator
     {
@@ -14,21 +14,18 @@ namespace Trakx.Shrimpy.ApiClient
         public ClientConfigurator(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            ApiConfiguration = serviceProvider.GetService<IOptions<ShrimpyApiConfiguration>>()!.Value;
+            ApiConfiguration = serviceProvider.GetService<IOptions<ShrimpyDevApiConfiguration>>()!.Value;
         }
 
         public IShrimpyApiConfiguration ApiConfiguration { get; }
 
         public ICredentialsProvider GetCredentialProvider(Type clientType)
         {
-            switch (clientType.Name)
+            return clientType.Name switch
             {
-                case nameof(MarketDataClient):
-                //case nameof(HistoricalClient):
-                    return new NoCredentialsProvider();
-                default:
-                    return _serviceProvider.GetService<IShrimpyCredentialsProvider<ShrimpyApiConfiguration>>()!;
-            }
+                nameof(MarketDataClient) => new NoCredentialsProvider(),//case nameof(HistoricalClient):
+                _ => _serviceProvider.GetService<IShrimpyCredentialsProvider<ShrimpyDevApiConfiguration>>()!,
+            };
         }
     }
 }

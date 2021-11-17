@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Trakx.Shrimpy.Core;
 
 namespace Trakx.Shrimpy.ApiClient
 {
@@ -22,7 +23,7 @@ namespace Trakx.Shrimpy.ApiClient
 
         public async Task<IList<string>> GetTradableAsync(IEnumerable<string> symbols, CancellationToken cancellationToken = default)
         {
-            var exchanges = ((FavouriteExchangesClient)_marketDataClient).Top12ExchangeIds;
+            var exchanges = ((IFavouriteExchangesClient)_marketDataClient).Top12ExchangeIds;
             var untradableSymbols = new HashSet<string>(symbols);
             foreach (var exchangeName in exchanges)
             {

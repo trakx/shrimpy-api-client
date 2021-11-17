@@ -2,9 +2,9 @@
 using Trakx.Shrimpy.Core;
 using Trakx.Utils.Attributes;
 
-namespace Trakx.Shrimpy.ApiClient
+namespace Trakx.Shrimpy.DeveloperApiClient
 {
-    public record ShrimpyApiConfiguration : IShrimpyApiConfiguration
+    public record ShrimpyDevApiConfiguration : IShrimpyApiConfiguration
     {
 #nullable disable
         public string BaseUrl { get; init; }

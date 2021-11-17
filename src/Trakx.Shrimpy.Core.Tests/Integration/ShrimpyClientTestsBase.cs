@@ -1,13 +1,15 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using Trakx.Shrimpy.ApiClient;
+using Trakx.Shrimpy.DeveloperApiClient;
 using Xunit;
 using Xunit.Abstractions;
+using Xunit.Extensions.AssemblyFixture;
 
-namespace Trakx.Shrimpy.ApiClient.Tests.Integration
+namespace Trakx.Shrimpy.Core.Tests.Integration
 {
-    [Collection(nameof(ApiTestCollection))]
-    public class ShrimpyClientTestsBase
+    public class ShrimpyClientTestsBase : IAssemblyFixture<ShrimpyApiFixture>
     {
         protected ServiceProvider ServiceProvider;
         protected ILogger Logger;
@@ -18,14 +20,6 @@ namespace Trakx.Shrimpy.ApiClient.Tests.Integration
 
             ServiceProvider = apiFixture.ServiceProvider;
         }
-    }
-
-    [CollectionDefinition(nameof(ApiTestCollection))]
-    public class ApiTestCollection : ICollectionFixture<ShrimpyApiFixture>
-    {
-        // This class has no code, and is never created. Its purpose is simply
-        // to be the place to apply [CollectionDefinition] and all the
-        // ICollectionFixture<> interfaces.
     }
 
     public class ShrimpyApiFixture : IDisposable
@@ -42,11 +36,21 @@ namespace Trakx.Shrimpy.ApiClient.Tests.Integration
                 BaseUrl = "https://api.shrimpy.io"
             };
 
+            var devSecrets = new SecretsDev();
+            var devConfig = new ShrimpyDevApiConfiguration
+            {
+                ApiKey = devSecrets.ShrimpyApiKey,
+                ApiSecret = devSecrets.ShrimpyApiSecret,
+                BaseUrl = "https://dev-api.shrimpy.io"
+            };
+
             var serviceCollection = new ServiceCollection();
+            serviceCollection.AddCoreDependencies();
+            serviceCollection.AddApiCredentialsProvider<ShrimpyDevApiConfiguration>();
+            serviceCollection.AddApiCredentialsProvider<ShrimpyApiConfiguration>();
 
-            serviceCollection.AddSingleton(configuration);
-            serviceCollection.AddShrimpyClient(configuration);
-
+            serviceCollection.AddShrimpyClients(configuration);
+            serviceCollection.AddDeveloperClients(devConfig);
             ServiceProvider = serviceCollection.BuildServiceProvider();
         }
 

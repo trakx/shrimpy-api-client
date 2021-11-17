@@ -5,10 +5,10 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
 
-namespace Trakx.Shrimpy.ApiClient
+namespace Trakx.Shrimpy.DeveloperApiClient
 {
 <#
-var clientNames = new [] { /*"ExchangesClient", "MarketDataClient",*/ "AccountsClient" };
+var clientNames = new [] { "HistoricalClient" };
 
 foreach(var name in clientNames)
 {
@@ -23,5 +23,4 @@ foreach(var name in clientNames)
 <#
 }
 #>
-
 }

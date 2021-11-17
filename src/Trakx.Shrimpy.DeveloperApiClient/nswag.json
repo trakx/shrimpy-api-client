@@ -57,7 +57,7 @@
       "wrapResponseMethods": [],
       "generateResponseClasses": true,
       "responseClass": "Response",
-      "namespace": "Trakx.Shrimpy.ApiClient",
+      "namespace": "Trakx.Shrimpy.DeveloperApiClient",
       "requiredPropertiesMustBeDefined": true,
       "dateType": "System.DateTimeOffset",
       "jsonConverters": null,

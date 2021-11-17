@@ -10,6 +10,8 @@ env:
   SOLUTION_PATH: "src/Trakx.Shrimpy.ApiClient.sln"
   ShrimpyApiConfiguration__ApiKey: ${{secrets.SHRIMPY_API_KEY}}
   ShrimpyApiConfiguration__ApiSecret: ${{secrets.SHRIMPY_API_SECRET}}
+  ShrimpyDevApiConfiguration__ApiKey: ${{secrets.SHRIMPY_DEV_API_KEY}}
+  ShrimpyDevApiConfiguration__ApiSecret: ${{secrets.SHRIMPY_DEV_API_SECRET}}
   
 jobs:
   build:
