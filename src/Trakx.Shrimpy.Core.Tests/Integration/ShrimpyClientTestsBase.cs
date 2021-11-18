@@ -11,11 +11,13 @@ namespace Trakx.Shrimpy.Core.Tests.Integration
 {
     public class ShrimpyClientTestsBase : IAssemblyFixture<ShrimpyApiFixture>
     {
-        protected ServiceProvider ServiceProvider;
-        protected ILogger Logger;
+        protected readonly ITestOutputHelper Output;
+        protected readonly ServiceProvider ServiceProvider;
+        protected readonly ILogger Logger;
 
         public ShrimpyClientTestsBase(ShrimpyApiFixture apiFixture, ITestOutputHelper output)
         {
+            Output = output;
             Logger = new LoggerConfiguration().WriteTo.TestOutput(output).CreateLogger();
 
             ServiceProvider = apiFixture.ServiceProvider;
