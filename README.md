@@ -17,4 +17,6 @@ In order to be able to run some integration tests, you should create a `.env` fi
 ```secretsEnvVariables
 ShrimpyApiConfiguration__ApiKey=********
 ShrimpyApiConfiguration__ApiSecret=********
+ShrimpyDevApiConfiguration__ApiKey=********
+ShrimpyDevApiConfiguration__ApiSecret=********
 ```

@@ -253,8 +253,94 @@ paths:
                 $ref: '#/components/schemas/GetHistoricalCandlesResponse'
       security:
         - ApiKeyAuth: []
-
-
+  "/v1/historical/instruments":
+    get:
+      operationId: GetHistoricalInstruments
+      tags:
+        - Historical
+      description: This endpoint retrieves the supported historical instruments on the Developer API and their available historical order book and trade data ranges.
+      parameters:
+        - in: query
+          name: exchange
+          description: The exchange for which to retrieve historical ohlcv data
+          required: false
+          schema:
+            $ref: '#/components/schemas/Exchange'
+        - in: query
+          name: baseTradingSymbol
+          required: false
+          description: The base trading symbol that is used by the exchange.
+          schema:
+            type: string
+        - in: query
+          name: quoteTradingSymbol
+          required: false
+          description: The quote trading symbol that is used by the exchange.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of historical instrument types.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetHistoricalInstrumentsResponse'
+      security:
+        - ApiKeyAuth: []
+  "/v1/historical/count":
+    get:
+      operationId: GetHistoricalCount
+      tags:
+        - Historical
+      description: This endpoint retrieves the supported historical instruments on the Developer API and their available historical order book and trade data ranges.
+      parameters:
+        - in: query
+          name: type
+          description: The exchange for which to retrieve historical ohlcv data
+          required: true
+          schema:
+            $ref: '#/components/schemas/DataPointType'
+        - in: query
+          name: exchange
+          description: The exchange for which to retrieve historical ohlcv data
+          required: true
+          schema:
+            $ref: '#/components/schemas/Exchange'
+        - in: query
+          name: baseTradingSymbol
+          required: true
+          description: The base trading symbol that is used by the exchange.
+          schema:
+            type: string
+        - in: query
+          name: quoteTradingSymbol
+          required: true
+          description: The quote trading symbol that is used by the exchange.
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          required: true
+          description: The starting time in ISO 8601
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: endTime
+          required: true
+          description: The ending time in ISO 8601
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: Count of data points to be retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetHistoricalCountResponse'
+      security:
+        - ApiKeyAuth: [ ]
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -413,6 +499,11 @@ components:
       enum: [ binance, binanceUs, bittrex, coinbasePro, kraken, kucoin, poloniex, huobiGlobal, okex, gemini, bibox, hitBtc, bitmart, bitstamp, bitfinex ]
       description: A unique identifier for the exchange that is used with other Shrimpy endpoints. This is typically the lowercase name of the exchange without spaces.
       example: kucoin
+    DataPointType:
+      type: string
+      enum: [ trade, orderbook ]
+      description: Type of datapoint to be queried.
+      example: trade
     Interval:
       type: string
       description: The interval must be one of the following values - 1m, 5m, 15m, 1h, 6h, or 1d - These values correspond to intervals representing one minute, five minutes, fifteen minutes, one hour, six hours, and one day, respectively.
@@ -425,7 +516,7 @@ components:
         - 1d
     GetHistoricalCandlesResponse:
       type: array
-      description: An array of histroical candles
+      description: An array of historical candles
       items:
         $ref: "#/components/schemas/HistoricalCandle"
     HistoricalCandle:
@@ -454,3 +545,45 @@ components:
           type: string
           format: date-time
           description: The start time of the time frame, in UTC. The duration of the time frame will depend on the interval associated with the candlestick.
+    GetHistoricalInstrumentsResponse:
+      type: array
+      description: An array of historical instruments
+      items:
+        $ref: "#/components/schemas/HistoricalInstrument"
+    HistoricalInstrument:
+      type: object
+      description: The historical instrument object contains information related to the available date ranges for order book and trade historical data.
+      properties:
+        exchange:
+          $ref: "#/components/schemas/Exchange"
+        baseTradingSymbol:
+          type: string
+          description: The base trading symbol of the trading pair
+        quoteTradingSymbol:
+          type: string
+          description: The quote trading symbol of the trading pair
+        orderBookStartTime:
+          type: string
+          format: date-time
+          description: The start time of first datapoint for this instrument.
+        orderBookEndTime:
+          type: string
+          format: date-time
+          description: The end time of last datapoint for this instrument.
+        tradeStartTime:
+          type: string
+          format: date-time
+          description: The start time of first datapoint for this instrument.
+          nullable: true
+        tradeEndTime:
+          type: string
+          format: date-time
+          description: The end time of last datapoint for this instrument.
+          nullable: true
+    GetHistoricalCountResponse:
+      type: object
+      description: Data points to be returned for a given request.
+      properties:
+        count:
+          type: number
+          format: int32
