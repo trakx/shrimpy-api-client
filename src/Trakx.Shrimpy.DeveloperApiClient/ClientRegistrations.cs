@@ -12,11 +12,6 @@ namespace Trakx.Shrimpy.DeveloperApiClient
 {
     public static partial class AddShrimpyDeveloperClientExtensions
     {
-        private static bool CanRetry(string errorMsg)
-        {
-            return !errorMsg.Contains("does not have data available.", StringComparison.InvariantCultureIgnoreCase);
-        }
-
         private static void AddClients(this IServiceCollection services)
         {
             var delay = Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromMilliseconds(100), retryCount: 5);
@@ -24,8 +19,9 @@ namespace Trakx.Shrimpy.DeveloperApiClient
             services.AddHttpClient<IHistoricalClient, HistoricalClient>("Trakx.Shrimpy.DeveloperApiClient.HistoricalClient")
                 .AddPolicyHandler((s, request) =>
                     Policy<HttpResponseMessage>
-                    .Handle<ApiException>(t => CanRetry(t.Message))
-                    .Or<HttpRequestException>(t => CanRetry(t.Message))
+                    .Handle<ApiException>()
+                    .Or<HttpRequestException>()
+                    .OrTransientHttpStatusCode()
                     .WaitAndRetryAsync(delay,
                         onRetry: (result, timeSpan, retryCount, context) =>
                         {

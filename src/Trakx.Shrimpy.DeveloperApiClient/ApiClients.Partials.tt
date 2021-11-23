@@ -14,7 +14,7 @@ foreach(var name in clientNames)
 {
 #>
     internal partial class <#= name #>
-    {
+    {        
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url)
         {
             CredentialProvider.AddCredentials(request);
