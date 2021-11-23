@@ -18,7 +18,7 @@ namespace Trakx.Shrimpy.DeveloperApiClient
     public partial interface IHistoricalClient
     {
         ///<summary>
-        /// Method wraps around <see cref="GetHistoricalCandlesAsync"/> and validates the request against data recieved from <see cref="GetHistoricalInstrumentsAsync"/>
+        /// Method wraps around <see cref="GetHistoricalCandlesAsync"/> and validates the request against data received from <see cref="GetHistoricalInstrumentsAsync"/>
         /// </summary>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="exchange">The exchange for which to retrieve historical ohlcv data</param>
