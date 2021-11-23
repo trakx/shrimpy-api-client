@@ -19,7 +19,7 @@ namespace Trakx.Shrimpy.DeveloperApiClient
             services.AddHttpClient<IHistoricalClient, HistoricalClient>("Trakx.Shrimpy.DeveloperApiClient.HistoricalClient")
                 .AddPolicyHandler((s, request) =>
                     Policy<HttpResponseMessage>
-                    .Handle<ApiException>()
+                    .Handle<ApiException>(t => !t.Message.Contains("does not have data available.", StringComparison.InvariantCultureIgnoreCase))
                     .Or<HttpRequestException>()
                     .OrTransientHttpStatusCode()
                     .WaitAndRetryAsync(delay,
