@@ -20,7 +20,7 @@ namespace Trakx.Shrimpy.DeveloperApiClient.Tests.Integration
         }
 
         [Fact]
-        public async Task GetHistoricalCandlesAsync_should_block_results_with_no_data()
+        public async Task GetHistoricalCandlesSafeAsync_should_block_results_with_no_data()
         {
             var start = DateTimeOffset.Parse("2021-01-01z");
             var end = start.AddDays(2);
@@ -36,7 +36,7 @@ namespace Trakx.Shrimpy.DeveloperApiClient.Tests.Integration
             var start = DateTimeOffset.Parse("2021-01-01z");
             var end = start.AddDays(2);
             var candles = (await _historicalClient
-                .GetHistoricalCandlesSafeAsync(Exchange.Bittrex, "LTC", "BTC", start, end, 100, Interval._1d))
+                .GetHistoricalCandlesAsync(Exchange.Bittrex, "LTC", "BTC", start, end, 100, Interval._1d))
                 .Result;
             var first = candles.First();
 
