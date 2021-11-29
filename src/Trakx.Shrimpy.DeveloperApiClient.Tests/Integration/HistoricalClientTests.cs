@@ -20,6 +20,17 @@ namespace Trakx.Shrimpy.DeveloperApiClient.Tests.Integration
         }
 
         [Fact]
+        public async Task GetHistoricalCandlesSafeAsync_should_block_results_with_no_data()
+        {
+            var start = DateTimeOffset.Parse("2021-01-01z");
+            var end = start.AddDays(2);
+            var candles = (await _historicalClient
+                .GetHistoricalCandlesSafeAsync(Exchange.Bittrex, "BTC", "USDC", start, end, 100, Interval._1d));
+            candles.Result.Should().BeEmpty();
+            candles.StatusCode.Should().Be(500);
+        }
+
+        [Fact]
         public async Task GetHistoricalCandlesAsync_should_return_results()
         {
             var start = DateTimeOffset.Parse("2021-01-01z");
