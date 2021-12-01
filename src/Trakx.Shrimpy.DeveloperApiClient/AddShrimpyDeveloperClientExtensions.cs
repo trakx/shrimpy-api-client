@@ -7,14 +7,14 @@ namespace Trakx.Shrimpy.DeveloperApiClient
 {
     public static partial class AddShrimpyDeveloperClientExtensions
     {
-        public static IServiceCollection AddDeveloperClients(this IServiceCollection serviceCollection, IConfiguration configuration)
+        public static IServiceCollection AddShrimpyDeveloperClients(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             var config = configuration.GetSection(nameof(ShrimpyDevApiConfiguration)).Get<ShrimpyDevApiConfiguration>();
-            serviceCollection.AddDeveloperClients(config);
+            serviceCollection.AddShrimpyDeveloperClients(config);
             return serviceCollection;
         }
 
-        public static IServiceCollection AddDeveloperClients(
+        public static IServiceCollection AddShrimpyDeveloperClients(
             this IServiceCollection serviceCollection, ShrimpyDevApiConfiguration apiConfiguration)
         {
             serviceCollection.AddApiCredentialsProvider<ShrimpyDevApiConfiguration>();
