@@ -63,7 +63,7 @@ namespace Trakx.Shrimpy.ApiClient.Tests.Integration
                 try
                 {
                     var tickers = await _marketDataClient.GetTickerAsync(exchange);
-                    //tickers.Result.Count.Should().BeGreaterThan(10);
+                    tickers.Result.Count.Should().BeGreaterThan(1);
                     var knownSymbols = tickers.Result.Where(t => t.Symbol == symbol).ToList();
                     knownSymbols.Count.Should().BeLessOrEqualTo(1);
                     var ticker = knownSymbols.SingleOrDefault();
