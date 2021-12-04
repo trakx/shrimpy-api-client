@@ -48,26 +48,29 @@ namespace Trakx.Shrimpy.ApiClient.Tests.Integration
         {
             var tickers = await _marketDataClient.GetTickerAsync(Exchange.Okex);
             tickers.Result.Count.Should().BeGreaterThan(10);
-            var knownSymbols = tickers.Result.Select(t => t.Symbol).ToList();
+            var knownSymbols = tickers.Result.Select(t => t.Name).ToList();
             knownSymbols.Should().Contain("OKB");
             Logger.Information(string.Join(",", knownSymbols));
         }
 
-        [Fact]
-        public async Task GetTicker_should_return_all_tickers_including_ELF_from_binance()
+        [Theory]
+        [InlineData("ELF")]
+        [InlineData("IMX")]
+        public async Task GetTicker_should_return_price_from_exchanges(string symbol)
         {
             var tasks = Enum.GetValues(typeof(Exchange)).Cast<Exchange>().Select(async exchange =>
             {
                 try
                 {
                     var tickers = await _marketDataClient.GetTickerAsync(exchange);
-                    tickers.Result.Count.Should().BeGreaterThan(10);
-                    var knownSymbols = tickers.Result.Where(t => t.Symbol == "ELF").ToList();
+                    //tickers.Result.Count.Should().BeGreaterThan(10);
+                    var knownSymbols = tickers.Result.Where(t => t.Symbol == symbol).ToList();
                     knownSymbols.Count.Should().BeLessOrEqualTo(1);
-                    var aelf = knownSymbols.SingleOrDefault();
-                    aelf?.Name.Should().Be("aelf");
-                    if(aelf is null) Log.Information("{exchange} doesn't have ticker ELF", exchange);
-                    else Logger.Information("{exchange} has the following for ELF ticker {aelf}", exchange,  JsonSerializer.Serialize(aelf));
+                    var ticker = knownSymbols.SingleOrDefault();
+                    if (ticker is null) Log.Information("{exchange} doesn't have ticker {symbol}", exchange, symbol);
+                    else
+                        Logger.Information("{exchange} has the following for {symbol} ticker {ticker}", exchange,
+                            symbol, JsonSerializer.Serialize(ticker));
                 }
                 catch (Exception exception)
                 {
