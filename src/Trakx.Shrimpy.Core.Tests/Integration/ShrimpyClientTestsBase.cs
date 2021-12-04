@@ -52,7 +52,7 @@ namespace Trakx.Shrimpy.Core.Tests.Integration
             serviceCollection.AddApiCredentialsProvider<ShrimpyApiConfiguration>();
 
             serviceCollection.AddShrimpyClients(configuration);
-            serviceCollection.AddDeveloperClients(devConfig);
+            serviceCollection.AddShrimpyDeveloperClients(devConfig);
             ServiceProvider = serviceCollection.BuildServiceProvider();
         }
 
