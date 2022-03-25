@@ -5,18 +5,23 @@
 # shrimpy-api-client
 C# implementation of a Shrimpy api client
 
-## Dual APIs
-Shrimpy offers two distinct APIs:
-- a default API, available at `https://api.shrimpy.io`, and documented at `https://dashboard.shrimpy.io/docs` which will be linked to a given account and made available to allow a user to perform operations on their accounts, like listing portfolios and rebalancing them.
-- a developer one, available at `https://dev-api.shrimpy.io`, and documented at `https://developers.shrimpy.io/docs` which is built to allow developers to handle user accounts, allow for historical queries, etc.
-
-The credentials and endpoints available for these two accounts are distinct.
-
 ## Creating your local .env file
 In order to be able to run some integration tests, you should create a `.env` file in the `src` folder with the following variables:
 ```secretsEnvVariables
 ShrimpyApiConfiguration__ApiKey=********
 ShrimpyApiConfiguration__ApiSecret=********
-ShrimpyDevApiConfiguration__ApiKey=********
-ShrimpyDevApiConfiguration__ApiSecret=********
 ```
+
+## AWS Parameters
+In order to be able to run some integration tests you should ensure that you have access to the following AWS parameters :
+```awsParams
+/Trakx/Shrimpy/ApiClient/ShrimpyApiConfiguration/ApiKey
+/Trakx/Shrimpy/ApiClient/ShrimpyApiConfiguration/ApiSecret
+```
+
+## How to regenerate C# API clients
+
+-   If you work with external API, you probably need to update OpenAPI definition added to the project. It's usually openApi3.yaml file.
+-   Do right click on the project and select Edit Project File. In the file change value of `GenerateApiClient` property to true.
+-   Rebuild the project. `NSwag` target will be executed as post action.
+-   The last thing to be done is to run integration test `OpenApiGeneratedCodeModifier` that will rewrite auto generated C# classes to use C# 9 features like records and init keyword.

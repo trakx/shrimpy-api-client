@@ -5,19 +5,18 @@ using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
 using Serilog;
-using Trakx.Shrimpy.Core;
 
-namespace Trakx.Shrimpy.ApiClient
+namespace Trakx.Shrimpy.ApiClient;
+
+public static partial class AddShrimpyClientExtensions
 {
-    public static partial class AddShrimpyClientExtensions
+    private static void AddClients(this IServiceCollection services)
     {
-        private static void AddClients(this IServiceCollection services)
-        {
-            var delay = Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromMilliseconds(100), retryCount: 10, fastFirst: true);
+        var delay = Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromMilliseconds(100), retryCount: 10, fastFirst: true);
             
-            services.AddHttpClient<IMarketDataClient, MarketDataClient>("Trakx.Shrimpy.ApiClient.MarketDataClient")
-                .AddPolicyHandler((s, request) =>
-                    Policy<HttpResponseMessage>
+        services.AddHttpClient<IMarketDataClient, MarketDataClient>("Trakx.Shrimpy.ApiClient.MarketDataClient")
+            .AddPolicyHandler((s, request) =>
+                Policy<HttpResponseMessage>
                     .Handle<ApiException>()
                     .Or<HttpRequestException>()
                     .OrTransientHttpStatusCode()
@@ -30,9 +29,9 @@ namespace Trakx.Shrimpy.ApiClient
                     .WithPolicyKey("Trakx.Shrimpy.ApiClient.MarketDataClient"));
 
             
-            services.AddHttpClient<IAccountsClient, AccountsClient>("Trakx.Shrimpy.ApiClient.AccountsClient")
-                .AddPolicyHandler((s, request) =>
-                    Policy<HttpResponseMessage>
+        services.AddHttpClient<IAccountsClient, AccountsClient>("Trakx.Shrimpy.ApiClient.AccountsClient")
+            .AddPolicyHandler((s, request) =>
+                Policy<HttpResponseMessage>
                     .Handle<ApiException>()
                     .Or<HttpRequestException>()
                     .OrTransientHttpStatusCode()
@@ -44,6 +43,5 @@ namespace Trakx.Shrimpy.ApiClient
                         })
                     .WithPolicyKey("Trakx.Shrimpy.ApiClient.AccountsClient"));
 
-                    }
     }
 }

@@ -1,37 +1,33 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
-using Trakx.Shrimpy.Core.Tests.Integration;
 using Xunit;
 using Xunit.Abstractions;
-using Xunit.Extensions.AssemblyFixture;
+namespace Trakx.Shrimpy.ApiClient.Tests.Integration;
 
-namespace Trakx.Shrimpy.ApiClient.Tests.Integration
+public class TradabilityCheckerTests : ShrimpyClientTestsBase
 {
-    public class TradabilityCheckerTests : ShrimpyClientTestsBase
+    private readonly IMarketDataClient _marketDataClient;
+
+    public TradabilityCheckerTests(ShrimpyApiFixture apiFixture, ITestOutputHelper output) : base(apiFixture, output)
     {
-        private readonly IMarketDataClient _marketDataClient;
+        _marketDataClient = ServiceProvider.GetRequiredService<IMarketDataClient>();
+    }
 
-        public TradabilityCheckerTests(ShrimpyApiFixture apiFixture, ITestOutputHelper output) : base(apiFixture, output)
-        {
-            _marketDataClient = ServiceProvider.GetRequiredService<IMarketDataClient>();
-        }
+    [Fact]
+    public async Task GetTradableAsync_should_return_nothing_for_untradable_symbols()
+    {
+        var tradabilityChecker = new TradabilityChecker(_marketDataClient);
+        var items = await tradabilityChecker.GetTradableAsync(new[] { "bla-bla-bla" });
+        items.Should().BeEmpty();
+    }
 
-        [Fact]
-        public async Task GetTradableAsync_should_return_nothing_for_untradable_symbols()
-        {
-            var tradabilityChecker = new TradabilityChecker(_marketDataClient);
-            var items = await tradabilityChecker.GetTradableAsync(new[] { "bla-bla-bla" });
-            items.Should().BeEmpty();
-        }
-
-        [Fact]
-        public async Task GetTradableAsync_should_return_success_for_known_symbols()
-        {
-            var tradabilityChecker = new TradabilityChecker(_marketDataClient);
-            var wideRenownSymbols = new[] { "btc", "eth", "gbp" };
-            var items = await tradabilityChecker.GetTradableAsync(wideRenownSymbols);
-            items.Should().BeEquivalentTo(wideRenownSymbols);
-        }
+    [Fact]
+    public async Task GetTradableAsync_should_return_success_for_known_symbols()
+    {
+        var tradabilityChecker = new TradabilityChecker(_marketDataClient);
+        var wideRenownSymbols = new[] { "btc", "eth", "gbp" };
+        var items = await tradabilityChecker.GetTradableAsync(wideRenownSymbols);
+        items.Should().BeEquivalentTo(wideRenownSymbols);
     }
 }
