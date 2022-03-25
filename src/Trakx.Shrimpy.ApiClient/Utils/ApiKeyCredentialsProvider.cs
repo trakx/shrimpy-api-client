@@ -5,31 +5,30 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
 using Serilog;
 using Trakx.Utils.Apis;
 using Trakx.Utils.DateTimeHelpers;
 
-namespace Trakx.Shrimpy.Core.Utils
+namespace Trakx.Shrimpy.ApiClient.Utils
 {
-    public interface IShrimpyCredentialsProvider<TConfig> : ICredentialsProvider where TConfig : class, IShrimpyApiConfiguration { };
-    public class ApiKeyCredentialsProvider<TConfig> : IShrimpyCredentialsProvider<TConfig>, IDisposable where TConfig : class, IShrimpyApiConfiguration
+    public interface IShrimpyCredentialsProvider : ICredentialsProvider {}
+    public class ApiKeyCredentialsProvider : IShrimpyCredentialsProvider, IDisposable
     {
         private const string ApiKeyHeader = "SHRIMPY-API-KEY";
         private const string ApiNonceHeader = "SHRIMPY-API-NONCE";
         private const string ApiSignatureHeader = "SHRIMPY-API-SIGNATURE";
 
-        private readonly TConfig _configuration;
+        private readonly ShrimpyApiConfiguration _configuration;
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly CancellationTokenSource _tokenSource;
         private readonly byte[] _encodingSecret;
 
-        private static readonly ILogger Logger = Log.Logger.ForContext<ApiKeyCredentialsProvider<TConfig>>();
+        private static readonly ILogger Logger = Log.Logger.ForContext<ApiKeyCredentialsProvider>();
 
-        public ApiKeyCredentialsProvider(IOptions<TConfig> configuration,
+        public ApiKeyCredentialsProvider(ShrimpyApiConfiguration configuration,
             IDateTimeProvider dateTimeProvider)
         {
-            _configuration = configuration.Value;
+            _configuration = configuration;
             _dateTimeProvider = dateTimeProvider;
 
             _tokenSource = new CancellationTokenSource();

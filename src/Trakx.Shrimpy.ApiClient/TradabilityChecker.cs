@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Trakx.Shrimpy.Core;
 
 namespace Trakx.Shrimpy.ApiClient
 {

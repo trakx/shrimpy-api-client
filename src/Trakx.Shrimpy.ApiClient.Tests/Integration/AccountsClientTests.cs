@@ -4,10 +4,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Trakx.Shrimpy.Core.Tests.Integration;
 using Xunit;
 using Xunit.Abstractions;
-using Xunit.Extensions.AssemblyFixture;
 
 namespace Trakx.Shrimpy.ApiClient.Tests.Integration
 {
@@ -46,7 +44,7 @@ namespace Trakx.Shrimpy.ApiClient.Tests.Integration
             Logger.Information("Binance balances: {balances}",
                 string.Join(", ", JsonSerializer.Serialize(balances)));
 
-            balances.First(b => string.Equals(b.Symbol, "link", StringComparison.InvariantCultureIgnoreCase)).UsdValue
+            balances.First(b => string.Equals(b.Symbol, "eur", StringComparison.InvariantCultureIgnoreCase)).UsdValue
                 .Should().NotBe(0);
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Trakx.Shrimpy.Core
+namespace Trakx.Shrimpy.ApiClient
 {
     public interface IFavouriteExchangesClient
     {

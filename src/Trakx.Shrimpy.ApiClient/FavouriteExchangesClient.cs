@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace Trakx.Shrimpy.Core
+namespace Trakx.Shrimpy.ApiClient
 {
     public abstract class FavouriteExchangesClient : IFavouriteExchangesClient
     {
         public IReadOnlyList<string> Top12ExchangeIds { get; }
         public string Top12ExchangeIdsAsCsv { get; }
 
-        protected FavouriteExchangesClient(IClientConfigurator clientConfigurator)
+        protected FavouriteExchangesClient(ClientConfigurator clientConfigurator)
         {
             ApiConfiguration = clientConfigurator.ApiConfiguration;
             Top12ExchangeIds = ApiConfiguration.FavouriteExchanges?.Count > 0
@@ -21,6 +21,6 @@ namespace Trakx.Shrimpy.Core
             Top12ExchangeIdsAsCsv = string.Join(",", Top12ExchangeIds);
         }
 
-        public IShrimpyApiConfiguration ApiConfiguration { get; init; }
+        public ShrimpyApiConfiguration ApiConfiguration { get; init; }
     }
 }

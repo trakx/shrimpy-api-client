@@ -1,26 +1,27 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Trakx.Shrimpy.Core;
+using Trakx.Shrimpy.ApiClient.Utils;
+using Trakx.Utils.DateTimeHelpers;
 
 namespace Trakx.Shrimpy.ApiClient
 {
     public static partial class AddShrimpyClientExtensions
     {
-        public static IServiceCollection AddShrimpyClients(this IServiceCollection serviceCollection, IConfiguration configuration)
+        public static IServiceCollection AddShrimpyClient(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             var config = configuration.GetSection(nameof(ShrimpyApiConfiguration)).Get<ShrimpyApiConfiguration>();
-            serviceCollection.AddShrimpyClients(config);
+            serviceCollection.AddShrimpyClient(config);
             return serviceCollection;
         }
 
-        public static IServiceCollection AddShrimpyClients(
+        public static IServiceCollection AddShrimpyClient(
             this IServiceCollection serviceCollection, ShrimpyApiConfiguration apiConfiguration)
         {
-            serviceCollection.AddApiCredentialsProvider<ShrimpyApiConfiguration>();
-            var options = Options.Create(apiConfiguration);
-            serviceCollection.AddSingleton(options);
-            serviceCollection.AddSingleton(s => new ClientConfigurator(s));
+            serviceCollection.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+            serviceCollection.AddSingleton<IShrimpyCredentialsProvider, ApiKeyCredentialsProvider>();
+            serviceCollection.AddSingleton(apiConfiguration);
+            serviceCollection.AddSingleton<ClientConfigurator>();
             AddClients(serviceCollection);
             return serviceCollection;
         }

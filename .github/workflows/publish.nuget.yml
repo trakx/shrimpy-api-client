@@ -52,16 +52,16 @@ jobs:
 
       - name: Bump version
         id: bumpVersion
-        uses: trakx/bump-version-action@v6
+        uses: trakx/bump-version-action@v8
         with:
           semverIncrementLevel: ${{github.event.inputs.semverIncrementLevel}}
           releaseBranches: master
           githubToken: ${{secrets.GITHUB_TOKEN}}
 
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1.7.2
+        uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: 5.0.x
+          dotnet-version: 6.0.x
 
       - name: Add github nuget source
         run: dotnet nuget add source "https://nuget.pkg.github.com/trakx/index.json" --name "github" --username "trakx-bot" --password ${{secrets.TRAKX_BOT_READONLY_PAT}} --store-password-in-clear-text
@@ -86,8 +86,6 @@ jobs:
       - name: Package
         run: |
           dotnet pack ${{env.API_PROJECT_PATH}} --no-build --configuration ${{ steps.comp-mode.outputs.compilationMode }} \
-            --output ./nuget/ -p:PackageVersion=${{ steps.bumpVersion.outputs.fullVersion }} --include-symbols --include-source
-          dotnet pack ${{env.DEV_API_PROJECT_PATH}} --no-build --configuration ${{ steps.comp-mode.outputs.compilationMode }} \
             --output ./nuget/ -p:PackageVersion=${{ steps.bumpVersion.outputs.fullVersion }} --include-symbols --include-source
           dotnet pack ${{env.CORE_PROJECT_PATH}} --no-build --configuration ${{ steps.comp-mode.outputs.compilationMode }} \
             --output ./nuget/ -p:PackageVersion=${{ steps.bumpVersion.outputs.fullVersion }} --include-symbols --include-source

@@ -1,6 +1,6 @@
 ﻿using Xunit.Abstractions;
 
-namespace Trakx.Shrimpy.Core.Tests.Integration
+namespace Trakx.Shrimpy.ApiClient.Tests.Integration
 {
     public class OpenApiGeneratedCodeModifier : Trakx.Utils.Testing.OpenApiGeneratedCodeModifier
     {

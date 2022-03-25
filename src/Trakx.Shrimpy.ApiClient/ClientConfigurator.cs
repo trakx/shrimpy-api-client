@@ -1,34 +1,30 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Trakx.Shrimpy.Core;
-using Trakx.Shrimpy.Core.Utils;
+using Trakx.Shrimpy.ApiClient.Utils;
 using Trakx.Utils.Apis;
 
 namespace Trakx.Shrimpy.ApiClient
 {
-    internal class ClientConfigurator : IClientConfigurator
+    public class ClientConfigurator
     {
-        private readonly IServiceProvider _serviceProvider;
+        public ShrimpyApiConfiguration ApiConfiguration { get; }
+        private readonly IShrimpyCredentialsProvider _credentialsProvider;
 
-        public ClientConfigurator(IServiceProvider serviceProvider)
+        public ClientConfigurator(ShrimpyApiConfiguration apiConfiguration,
+            IShrimpyCredentialsProvider credentialsProvider)
         {
-            _serviceProvider = serviceProvider;
-            ApiConfiguration = serviceProvider.GetService<IOptions<ShrimpyApiConfiguration>>()!.Value;
+            ApiConfiguration = apiConfiguration;
+            _credentialsProvider = credentialsProvider;
         }
-
-        public IShrimpyApiConfiguration ApiConfiguration { get; }
 
         public ICredentialsProvider GetCredentialProvider(Type clientType)
         {
-            switch (clientType.Name)
+            return clientType.Name switch
             {
-                case nameof(MarketDataClient):
-                //case nameof(HistoricalClient):
-                    return new NoCredentialsProvider();
-                default:
-                    return _serviceProvider.GetService<IShrimpyCredentialsProvider<ShrimpyApiConfiguration>>()!;
-            }
+                nameof(MarketDataClient) => new NoCredentialsProvider(),
+                _ => _credentialsProvider
+            };
         }
     }
 }

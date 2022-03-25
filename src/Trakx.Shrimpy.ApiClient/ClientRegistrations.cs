@@ -5,7 +5,6 @@ using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
 using Serilog;
-using Trakx.Shrimpy.Core;
 
 namespace Trakx.Shrimpy.ApiClient
 {
