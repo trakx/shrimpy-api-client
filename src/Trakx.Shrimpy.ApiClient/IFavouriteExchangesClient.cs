@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace Trakx.Shrimpy.ApiClient
+namespace Trakx.Shrimpy.ApiClient;
+
+public interface IFavouriteExchangesClient
 {
-    public interface IFavouriteExchangesClient
-    {
-        IReadOnlyList<string> Top12ExchangeIds { get; }
-        string Top12ExchangeIdsAsCsv { get; }
-    }
+    IReadOnlyList<string> Top12ExchangeIds { get; }
+    string Top12ExchangeIdsAsCsv { get; }
 }

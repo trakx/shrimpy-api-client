@@ -1,11 +1,10 @@
 ﻿using Xunit.Abstractions;
 
-namespace Trakx.Shrimpy.ApiClient.Tests.Integration
+namespace Trakx.Shrimpy.ApiClient.Tests.Integration;
+
+public class OpenApiGeneratedCodeModifier : Trakx.Utils.Testing.OpenApiGeneratedCodeModifier
 {
-    public class OpenApiGeneratedCodeModifier : Trakx.Utils.Testing.OpenApiGeneratedCodeModifier
+    public OpenApiGeneratedCodeModifier(ITestOutputHelper output) : base(output)
     {
-        public OpenApiGeneratedCodeModifier(ITestOutputHelper output) : base(output)
-        {
-        }
     }
 }
