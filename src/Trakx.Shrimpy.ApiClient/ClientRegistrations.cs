@@ -5,18 +5,19 @@ using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
 using Serilog;
+using Trakx.Utils.Apis;
 
-namespace Trakx.Shrimpy.ApiClient;
-
-public static partial class AddShrimpyClientExtensions
+namespace Trakx.Shrimpy.ApiClient
 {
-    private static void AddClients(this IServiceCollection services)
+    public static partial class AddShrimpyClientExtensions
     {
-        var delay = Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromMilliseconds(100), retryCount: 10, fastFirst: true);
+        private static void AddClients(this IServiceCollection services)
+        {
+            var delay = Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromMilliseconds(100), retryCount: 10, fastFirst: true);
             
-        services.AddHttpClient<IMarketDataClient, MarketDataClient>("Trakx.Shrimpy.ApiClient.MarketDataClient")
-            .AddPolicyHandler((s, request) =>
-                Policy<HttpResponseMessage>
+            services.AddHttpClient<IMarketDataClient, MarketDataClient>("Trakx.Shrimpy.ApiClient.MarketDataClient")
+                .AddPolicyHandler((s, request) =>
+                    Policy<HttpResponseMessage>
                     .Handle<ApiException>()
                     .Or<HttpRequestException>()
                     .OrTransientHttpStatusCode()
@@ -24,14 +25,14 @@ public static partial class AddShrimpyClientExtensions
                         onRetry: (result, timeSpan, retryCount, context) =>
                         {
                             var logger = Log.Logger.ForContext<MarketDataClient>();
-                            logger.LogFailure(result, timeSpan, retryCount, context);
+                            logger.LogApiFailure(result, timeSpan, retryCount, context);
                         })
                     .WithPolicyKey("Trakx.Shrimpy.ApiClient.MarketDataClient"));
 
             
-        services.AddHttpClient<IAccountsClient, AccountsClient>("Trakx.Shrimpy.ApiClient.AccountsClient")
-            .AddPolicyHandler((s, request) =>
-                Policy<HttpResponseMessage>
+            services.AddHttpClient<IAccountsClient, AccountsClient>("Trakx.Shrimpy.ApiClient.AccountsClient")
+                .AddPolicyHandler((s, request) =>
+                    Policy<HttpResponseMessage>
                     .Handle<ApiException>()
                     .Or<HttpRequestException>()
                     .OrTransientHttpStatusCode()
@@ -39,9 +40,10 @@ public static partial class AddShrimpyClientExtensions
                         onRetry: (result, timeSpan, retryCount, context) =>
                         {
                             var logger = Log.Logger.ForContext<AccountsClient>();
-                            logger.LogFailure(result, timeSpan, retryCount, context);
+                            logger.LogApiFailure(result, timeSpan, retryCount, context);
                         })
                     .WithPolicyKey("Trakx.Shrimpy.ApiClient.AccountsClient"));
 
+                    }
     }
 }

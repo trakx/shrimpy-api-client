@@ -16,7 +16,7 @@
     </None>
     <None Include="ClientRegistrations.cs">
       <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
+      <AutoGen>False</AutoGen>
       <DependentUpon>ClientRegistrations.tt</DependentUpon>
     </None>
   </ItemGroup>
@@ -30,7 +30,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Serilog" Version="2.10.0" />
-    <PackageReference Include="Trakx.Utils" Version="0.3.1" />
+    <PackageReference Include="Trakx.Utils" Version="0.3.3" />
   </ItemGroup>
 
   <ItemGroup>

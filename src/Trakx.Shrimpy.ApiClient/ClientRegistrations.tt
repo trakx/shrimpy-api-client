@@ -1,7 +1,6 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
 using System;
@@ -11,7 +10,7 @@ using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
 using Serilog;
-using Trakx.Shrimpy.Core;
+using Trakx.Utils.Apis;
 
 <#
 var nameSpace = "Trakx.Shrimpy.ApiClient";
@@ -40,7 +39,7 @@ namespace <#= nameSpace #>
                         onRetry: (result, timeSpan, retryCount, context) =>
                         {
                             var logger = Log.Logger.ForContext<<#= name #>>();
-                            logger.LogFailure(result, timeSpan, retryCount, context);
+                            logger.LogApiFailure(result, timeSpan, retryCount, context);
                         })
                     .WithPolicyKey("<#= nameSpace #>.<#= name #>"));
 

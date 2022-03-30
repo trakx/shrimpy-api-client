@@ -1,5 +1,5 @@
 ﻿{
-  "runtime": "Net50",
+  "runtime": "Net60",
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
@@ -43,7 +43,7 @@
       "additionalNamespaceUsages": [
         "Microsoft.AspNetCore.Mvc",
         "System.Threading",
-        "Trakx.Shrimpy.Core"
+        "Trakx.Utils.Apis"
       ],
       "additionalContractNamespaceUsages": [],
       "generateOptionalParameters": true,
@@ -55,7 +55,7 @@
       "responseDictionaryType": "System.Collections.Generic.IDictionary",
       "wrapResponses": true,
       "wrapResponseMethods": [],
-      "generateResponseClasses": true,
+      "generateResponseClasses": false,
       "responseClass": "Response",
       "namespace": "Trakx.Shrimpy.ApiClient",
       "requiredPropertiesMustBeDefined": true,
