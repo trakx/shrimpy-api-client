@@ -19,8 +19,6 @@ on:
 env:
   SOLUTION_PATH: "src/Trakx.Shrimpy.ApiClient.sln"
   API_PROJECT_PATH: "src/Trakx.Shrimpy.ApiClient/Trakx.Shrimpy.ApiClient.csproj"
-  ShrimpyApiConfiguration__ApiKey: ${{secrets.SHRIMPY_API_KEY}}
-  ShrimpyApiConfiguration__ApiSecret: ${{secrets.SHRIMPY_API_SECRET}}
 
 jobs:
 
@@ -73,6 +71,13 @@ jobs:
               -p:Version=${{steps.bumpVersion.outputs.assemblyVersion}} \
               -p:SourceRevisionId=${{steps.bumpVersion.outputs.productVersion}} \
               --no-restore
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{secrets.AWS_ACCES_KEY_ID}}
+          aws-secret-access-key: ${{secrets.AWS_ACCES_KEY_SECRET}}
+          aws-region: eu-west-3
 
       - name: Test
         run: dotnet test ${{env.SOLUTION_PATH}} --no-restore --verbosity normal
