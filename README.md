@@ -15,6 +15,8 @@ ShrimpyApiConfiguration__ApiSecret=********
 ## AWS Parameters
 In order to be able to run some integration tests you should ensure that you have access to the following AWS parameters :
 ```awsParams
+/CiCd/Trakx/Shrimpy/ApiClient/ShrimpyApiConfiguration/ApiKey
+/CiCd/Trakx/Shrimpy/ApiClient/ShrimpyApiConfiguration/ApiSecret
 /Trakx/Shrimpy/ApiClient/ShrimpyApiConfiguration/ApiKey
 /Trakx/Shrimpy/ApiClient/ShrimpyApiConfiguration/ApiSecret
 ```
