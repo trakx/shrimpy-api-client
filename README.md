@@ -17,8 +17,6 @@ In order to be able to run some integration tests you should ensure that you hav
 ```awsParams
 /CiCd/Trakx/Shrimpy/ApiClient/ShrimpyApiConfiguration/ApiKey
 /CiCd/Trakx/Shrimpy/ApiClient/ShrimpyApiConfiguration/ApiSecret
-/Trakx/Shrimpy/ApiClient/ShrimpyApiConfiguration/ApiKey
-/Trakx/Shrimpy/ApiClient/ShrimpyApiConfiguration/ApiSecret
 ```
 
 ## How to regenerate C# API clients
