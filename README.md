@@ -15,8 +15,8 @@ ShrimpyApiConfiguration__ApiSecret=********
 ## AWS Parameters
 In order to be able to run some integration tests you should ensure that you have access to the following AWS parameters :
 ```awsParams
-/Trakx/Shrimpy/ApiClient/ShrimpyApiConfiguration/ApiKey
-/Trakx/Shrimpy/ApiClient/ShrimpyApiConfiguration/ApiSecret
+/CiCd/Trakx/Shrimpy/ApiClient/ShrimpyApiConfiguration/ApiKey
+/CiCd/Trakx/Shrimpy/ApiClient/ShrimpyApiConfiguration/ApiSecret
 ```
 
 ## How to regenerate C# API clients

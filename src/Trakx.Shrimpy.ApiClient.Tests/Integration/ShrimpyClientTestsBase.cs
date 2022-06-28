@@ -38,7 +38,7 @@ public class ShrimpyApiFixture : IDisposable
     public ShrimpyApiFixture()
     {
 
-        var configuration = ConfigurationHelper.GetConfigurationFromEnv<ShrimpyApiConfiguration>()
+        var configuration = ConfigurationHelper.GetConfigurationFromAws<ShrimpyApiConfiguration>()
             with {
                 BaseUrl = "https://api.shrimpy.io"
             };
