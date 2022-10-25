@@ -1,7 +1,7 @@
 <Project>
     <PropertyGroup>
         <Company>Trakx</Company>
-        <Copyright>Copyright © 2021 Trakx</Copyright>
+        <Copyright>Copyright © 2022 Trakx</Copyright>
         <RepositoryUrl>https://github.com/trakx/shrimpy-api-client</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <Deterministic>true</Deterministic>
@@ -10,6 +10,7 @@
         <DebugSymbols>True</DebugSymbols>
         <Optimize>False</Optimize>
         <Nullable>Enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Version)' == '' ">
