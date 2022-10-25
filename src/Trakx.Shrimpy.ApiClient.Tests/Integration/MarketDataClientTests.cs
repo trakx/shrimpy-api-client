@@ -43,6 +43,13 @@ public class MarketDataClientTests : ShrimpyClientTestsBase
     }
 
     [Fact]
+    public void ListExchanges()
+    {
+            Logger.Information(string.Join(", ",
+                Enum.GetValues(typeof(Exchange)).Cast<Exchange>().Select(e => e.ToString())));
+    }
+    
+    [Fact]
     public async Task GetTicker_should_return_all_tickers_including_OKB_from_okex()
     {
         var tickers = await _marketDataClient.GetTickerAsync(Exchange.Okex);
