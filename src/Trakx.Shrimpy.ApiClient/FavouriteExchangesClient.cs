@@ -14,8 +14,7 @@ public abstract class FavouriteExchangesClient : IFavouriteExchangesClient
             ? ApiConfiguration.FavouriteExchanges!.AsReadOnly()
             : new List<string>
             {
-                "bitstamp", "bittrex", "poloniex", "kraken", "bitfinex", "coinbasepro",
-                "itbi", "gemini", "binance", "bfly", "cflr", "huobiglobal"
+                "binance", "binanceUs", "ftx", "ftxus", "coinbasePro", "kraken", "kucoin", "huobiGlobal", "okex", "gemini", "gateio"
             }.AsReadOnly();
 
         Top12ExchangeIdsAsCsv = string.Join(",", Top12ExchangeIds);

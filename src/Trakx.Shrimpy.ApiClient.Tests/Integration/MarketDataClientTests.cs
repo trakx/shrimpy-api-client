@@ -54,7 +54,7 @@ public class MarketDataClientTests : ShrimpyClientTestsBase
 
     [Theory]
     [InlineData("ELF")]
-    [InlineData("IMX")]
+    [InlineData("HT")]
     public async Task GetTicker_should_return_price_from_exchanges(string symbol)
     {
         var tasks = Enum.GetValues(typeof(Exchange)).Cast<Exchange>().Select(async exchange =>
