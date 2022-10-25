@@ -1,7 +1,6 @@
 name: Publish Nuget Packages
 
 on:
-
   # the workflow run allows to not run the test suite twice for non release
   # branches, and should be used for all branches, but the reference branch
   # in workflow run is the default branch and we don't get the correct release
