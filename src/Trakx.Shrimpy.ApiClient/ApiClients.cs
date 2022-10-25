@@ -685,8 +685,8 @@ namespace Trakx.Shrimpy.ApiClient
         [System.Runtime.Serialization.EnumMember(Value = @"ftx")]
         Ftx = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ftxus")]
-        Ftxus = 3,
+        [System.Runtime.Serialization.EnumMember(Value = @"ftxUs")]
+        FtxUs = 3,
 
         [System.Runtime.Serialization.EnumMember(Value = @"coinbasePro")]
         CoinbasePro = 4,
@@ -706,8 +706,8 @@ namespace Trakx.Shrimpy.ApiClient
         [System.Runtime.Serialization.EnumMember(Value = @"gemini")]
         Gemini = 9,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"gateio")]
-        Gateio = 10,
+        [System.Runtime.Serialization.EnumMember(Value = @"gateIo")]
+        GateIo = 10,
 
     }
 
