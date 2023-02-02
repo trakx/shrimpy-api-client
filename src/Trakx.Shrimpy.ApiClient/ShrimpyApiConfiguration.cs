@@ -15,6 +15,8 @@ public record ShrimpyApiConfiguration
     [AwsParameter]
     [SecretEnvironmentVariable]
     public string ApiSecret { get; init; }
-    public List<string> FavouriteExchanges { get; init; }
+
+    [AwsParameter]
+    public string FavouriteExchangesAsCsv { get; init; }
 #nullable restore
 }
