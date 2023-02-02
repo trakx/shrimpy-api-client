@@ -682,20 +682,20 @@ namespace Trakx.Shrimpy.ApiClient
         [System.Runtime.Serialization.EnumMember(Value = @"binanceUs")]
         BinanceUs = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ftx")]
-        Ftx = 2,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"ftxUs")]
-        FtxUs = 3,
+        [System.Runtime.Serialization.EnumMember(Value = @"bittrex")]
+        Bittrex = 2,
 
         [System.Runtime.Serialization.EnumMember(Value = @"coinbasePro")]
-        CoinbasePro = 4,
+        CoinbasePro = 3,
 
         [System.Runtime.Serialization.EnumMember(Value = @"kraken")]
-        Kraken = 5,
+        Kraken = 4,
 
         [System.Runtime.Serialization.EnumMember(Value = @"kucoin")]
-        Kucoin = 6,
+        Kucoin = 5,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"poloniex")]
+        Poloniex = 6,
 
         [System.Runtime.Serialization.EnumMember(Value = @"huobiGlobal")]
         HuobiGlobal = 7,
@@ -706,8 +706,20 @@ namespace Trakx.Shrimpy.ApiClient
         [System.Runtime.Serialization.EnumMember(Value = @"gemini")]
         Gemini = 9,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"gateIo")]
-        GateIo = 10,
+        [System.Runtime.Serialization.EnumMember(Value = @"bibox")]
+        Bibox = 10,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"hitBtc")]
+        HitBtc = 11,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"bitmart")]
+        Bitmart = 12,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"bitstamp")]
+        Bitstamp = 13,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"bitfinex")]
+        Bitfinex = 14,
 
     }
 
