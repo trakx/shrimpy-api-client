@@ -720,7 +720,6 @@ namespace Trakx.Shrimpy.ApiClient
 
         [System.Runtime.Serialization.EnumMember(Value = @"bitfinex")]
         Bitfinex = 14,
-
     }
 
     /// <summary>
