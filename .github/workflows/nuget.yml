@@ -35,6 +35,13 @@ jobs:
       - name: Checkout calling repo
         uses: actions/checkout@v3
       
+      - name: Checkout actions repo
+        uses: actions/checkout@v3
+        with:
+          repository: trakx/github-actions
+          path: github-actions
+          ref: feature/tag-action-upgrade
+        
       - name: Default input values
         id: default-inputs
         run: |
@@ -46,9 +53,9 @@ jobs:
           semverIncrementLevel=${semverIncrementLevel:-true}
           echo "semverIncrementLevel=$semverIncrementLevel" >> $GITHUB_OUTPUT
 
-      - name: Local build and publish nuget
+      - name: Build and publish nuget from feature-tag-action-upgrade
         id: publish
-        uses: ./local-actions/publish-nuget
+        uses: ./github-actions/publish-nuget
         with:
           packageReadonlyPat: ${{secrets.TRAKX_BOT_READONLY_PAT}}
           githubToken: ${{secrets.GITHUB_TOKEN}}
