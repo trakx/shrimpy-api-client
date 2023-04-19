@@ -4,24 +4,21 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
+namespace Trakx.Shrimpy.ApiClient;
 
-namespace Trakx.Shrimpy.ApiClient
-{
 <#
 var clientNames = new [] { /*"ExchangesClient", "MarketDataClient",*/ "AccountsClient" };
 
 foreach(var name in clientNames)
 {
 #>
-    internal partial class <#= name #>
+internal partial class <#= name #>
+{
+    partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url)
     {
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url)
-        {
-            CredentialProvider.AddCredentials(request);
-        }
+        CredentialProvider.AddCredentials(request);
     }
+}
 <#
 }
 #>
-
-}

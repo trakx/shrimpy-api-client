@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Trakx.Utils.Attributes;
+﻿using Trakx.Common.Attributes;
 
 namespace Trakx.Shrimpy.ApiClient;
 
@@ -15,6 +14,7 @@ public record ShrimpyApiConfiguration
     [AwsParameter]
     [SecretEnvironmentVariable]
     public string ApiSecret { get; init; }
+
     public List<string> FavouriteExchanges { get; init; }
 #nullable restore
 }

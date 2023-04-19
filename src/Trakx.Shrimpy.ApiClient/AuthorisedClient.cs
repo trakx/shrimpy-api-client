@@ -1,6 +1,4 @@
-﻿using Trakx.Utils.Apis;
-
-namespace Trakx.Shrimpy.ApiClient;
+﻿namespace Trakx.Shrimpy.ApiClient;
 
 public abstract class AuthorisedClient : FavouriteExchangesClient
 {

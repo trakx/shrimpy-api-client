@@ -1,9 +1,8 @@
-﻿
-namespace Trakx.Shrimpy.ApiClient;
+﻿namespace Trakx.Shrimpy.ApiClient;
 
 internal partial class AccountsClient
 {
-    partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url)
+    partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url)
     {
         CredentialProvider.AddCredentials(request);
     }
