@@ -32,6 +32,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout calling repo
+        uses: actions/checkout@v3
+      
       - name: Default input values
         id: default-inputs
         run: |
