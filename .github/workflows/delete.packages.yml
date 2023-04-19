@@ -24,4 +24,3 @@ jobs:
       with:
         package-name: '${{github.event.inputs.name}}'
         num-old-versions-to-delete: ${{github.event.inputs.num-old-versions-to-delete}}
-          

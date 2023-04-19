@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Trakx.Shrimpy.ApiClient;
+﻿namespace Trakx.Shrimpy.ApiClient;
 
 public abstract class FavouriteExchangesClient : IFavouriteExchangesClient
 {
@@ -10,12 +8,13 @@ public abstract class FavouriteExchangesClient : IFavouriteExchangesClient
     protected FavouriteExchangesClient(ClientConfigurator clientConfigurator)
     {
         ApiConfiguration = clientConfigurator.ApiConfiguration;
-        Top12ExchangeIds = ApiConfiguration.FavouriteExchanges?.Count > 0
-            ? ApiConfiguration.FavouriteExchanges!.AsReadOnly()
-            : new List<string>
+
+        Top12ExchangeIds = string.IsNullOrWhiteSpace(ApiConfiguration.FavouriteExchangesAsCsv)
+            ? new List<string>
             {
-                "binance", "binanceUs", "ftx", "ftxus", "coinbasePro", "kraken", "kucoin", "huobiGlobal", "okex", "gemini", "gateio"
-            }.AsReadOnly();
+                "binance", "binanceUs", "coinbasePro", "kraken", "kucoin", "huobiGlobal", "gemini", "gateio", "bittrex"
+            }.AsReadOnly()
+            : ApiConfiguration.FavouriteExchangesAsCsv.SplitCsvToLowerCaseDistinctList();
 
         Top12ExchangeIdsAsCsv = string.Join(",", Top12ExchangeIds);
     }
