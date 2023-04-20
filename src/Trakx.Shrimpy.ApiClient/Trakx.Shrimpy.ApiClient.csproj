@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <GenerateApiClient>false</GenerateApiClient>
   </PropertyGroup>
 
@@ -9,39 +9,31 @@
   <Import Project="../Packable.Projects.props" />
 
   <ItemGroup>
-    <None Include="ApiClients.Partials.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ApiClients.Partials.tt</DependentUpon>
-    </None>
-    <None Include="ClientRegistrations.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>False</AutoGen>
-      <DependentUpon>ClientRegistrations.tt</DependentUpon>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="7.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
     <PackageReference Include="Polly.Contrib.WaitAndRetry" Version="1.1.1" />
-    <PackageReference Include="NSwag.MSBuild" Version="13.17.0">
+    <PackageReference Include="NSwag.MSBuild" Version="13.18.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Serilog" Version="2.12.0" />
-    <PackageReference Include="Trakx.Utils" Version="0.6.12" />
+    <PackageReference Include="Trakx.Common" Version="0.2.0" />
+    <PackageReference Include="Trakx.Common.ApiClient" Version="0.2.0" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <None Update="ApiClients.Partials.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ApiClients.Partials.cs</LastGenOutput>
     </None>
-    <None Update="ClientRegistrations.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ClientRegistrations.cs</LastGenOutput>
-    </None>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="ApiClients.Partials.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ApiClients.Partials.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -49,21 +41,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ApiClients.Partials.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ApiClients.Partials.tt</DependentUpon>
-    </Compile>
-    <Compile Update="ClientRegistrations.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ClientRegistrations.tt</DependentUpon>
-    </Compile>
+    <Using Include="Trakx.Common.ApiClient" />
+    <Using Include="Trakx.Common.Extensions" />
   </ItemGroup>
 
   <Target Name="NSwag" BeforeTargets="Build" Condition="'$(GenerateApiClient)'=='True' ">
     <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
-    <Exec Command="$(NSwagExe_Net60) run nswag.json /variables:Configuration=$(Configuration) /runtime:Net60" />
+    <Exec EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net70) run nswag.json /variables:Configuration=$(Configuration) /runtime:Net70" />
     <RemoveDir Directories="$(OutDir)References" />
   </Target>
 

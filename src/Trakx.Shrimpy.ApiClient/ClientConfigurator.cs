@@ -1,8 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Trakx.Shrimpy.ApiClient.Utils;
-using Trakx.Utils.Apis;
+﻿using Trakx.Shrimpy.ApiClient.Utils;
 
 namespace Trakx.Shrimpy.ApiClient;
 
@@ -22,7 +18,7 @@ public class ClientConfigurator
     {
         return clientType.Name switch
         {
-            nameof(MarketDataClient) => new NoCredentialsProvider(),
+            nameof(MarketDataClient) => new NoCredentialProvider(),
             _ => _credentialsProvider
         };
     }

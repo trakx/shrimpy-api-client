@@ -1,11 +1,4 @@
-using System;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
-using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Trakx.Shrimpy.ApiClient.Tests.Integration;
 
@@ -20,13 +13,13 @@ public sealed class AccountsClientTests : ShrimpyClientTestsBase
     [Fact]
     public async Task ListAccounts_and_GetAccount_should_return_results()
     {
-        var accounts = (await _accountsClient.ListAccountsAsync()).Result;
+        var accounts = (await _accountsClient.ListAccountsAsync()).Content;
         var first = accounts.First();
 
         Logger.Information("Found accounts: {accounts}",
             JsonSerializer.Serialize(accounts));
 
-        var account = (await _accountsClient.GetAccountAsync(first.Id)).Result;
+        var account = (await _accountsClient.GetAccountAsync(first.Id)).Content;
 
         account.Id.Should().Be(first.Id);
         account.Exchange.Should().Be(first.Exchange);
@@ -36,10 +29,10 @@ public sealed class AccountsClientTests : ShrimpyClientTestsBase
     [Fact]
     public async Task GetBalance_should_work()
     {
-        var accounts = (await _accountsClient.ListAccountsAsync()).Result;
+        var accounts = (await _accountsClient.ListAccountsAsync()).Content;
         var binanceAccountId = accounts.Single(a => a.Exchange == Exchange.Binance).Id;
 
-        var balances = (await _accountsClient.GetBalanceAsync(binanceAccountId)).Result.Balances;
+        var balances = (await _accountsClient.GetBalanceAsync(binanceAccountId)).Content.Balances;
         balances.Count.Should().BeGreaterThan(1);
         Logger.Information("Binance balances: {balances}",
             string.Join(", ", JsonSerializer.Serialize(balances)));

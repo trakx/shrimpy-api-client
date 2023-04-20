@@ -1,17 +1,12 @@
-﻿using System;
-using System.Globalization;
-using System.Net.Http;
+﻿using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Serilog;
-using Trakx.Utils.Apis;
-using Trakx.Utils.DateTimeHelpers;
+using Trakx.Common.DateAndTime;
 
 namespace Trakx.Shrimpy.ApiClient.Utils;
 
-public interface IShrimpyCredentialsProvider : ICredentialsProvider {}
+public interface IShrimpyCredentialsProvider : ICredentialsProvider { }
 public class ApiKeyCredentialsProvider : IShrimpyCredentialsProvider, IDisposable
 {
     private const string ApiKeyHeader = "SHRIMPY-API-KEY";

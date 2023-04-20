@@ -1,9 +1,5 @@
-using System;
-using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using Trakx.Utils.Testing;
-using Xunit;
-using Xunit.Abstractions;
+using Trakx.Common.Testing.Configuration;
 
 namespace Trakx.Shrimpy.ApiClient.Tests.Integration;
 
@@ -37,11 +33,11 @@ public class ShrimpyApiFixture : IDisposable
 
     public ShrimpyApiFixture()
     {
-
-        var configuration = ConfigurationHelper.GetConfigurationFromAws<ShrimpyApiConfiguration>()
-            with {
-                BaseUrl = "https://api.shrimpy.io"
-            };
+        var configuration = AwsConfigurationHelper.GetConfigurationFromAws<ShrimpyApiConfiguration>()
+            with
+        {
+            BaseUrl = "https://api.shrimpy.io"
+        };
 
         var serviceCollection = new ServiceCollection();
 

@@ -1,5 +1,4 @@
-﻿using Trakx.Utils.Testing.ReadmeUpdater;
-using Xunit.Abstractions;
+﻿using Trakx.Common.Testing.Documentation.ReadmeUpdater;
 
 namespace Trakx.Shrimpy.ApiClient.Tests.Integration;
 

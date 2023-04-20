@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Trakx.Utils.Extensions;
-
-namespace Trakx.Shrimpy.ApiClient;
+﻿namespace Trakx.Shrimpy.ApiClient;
 
 public abstract class FavouriteExchangesClient : IFavouriteExchangesClient
 {
