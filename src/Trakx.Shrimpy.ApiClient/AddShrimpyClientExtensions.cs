@@ -15,7 +15,10 @@ public static partial class AddShrimpyClientExtensions
     public static IServiceCollection AddShrimpyClient(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
         var config = configuration.GetSection(nameof(ShrimpyApiConfiguration)).Get<ShrimpyApiConfiguration>();
-        serviceCollection.AddShrimpyClient(config);
+        if (config != null)
+        {
+            serviceCollection.AddShrimpyClient(config);
+        }
         return serviceCollection;
     }
 
