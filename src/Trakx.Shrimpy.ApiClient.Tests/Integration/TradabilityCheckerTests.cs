@@ -1,9 +1,4 @@
-﻿using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
-using System.Threading.Tasks;
-using Xunit;
-using Xunit.Abstractions;
-namespace Trakx.Shrimpy.ApiClient.Tests.Integration;
+﻿namespace Trakx.Shrimpy.ApiClient.Tests.Integration;
 
 public class TradabilityCheckerTests : ShrimpyClientTestsBase
 {

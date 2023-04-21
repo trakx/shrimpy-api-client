@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Trakx.Utils.Attributes;
+﻿using Trakx.Common.Attributes;
 
 namespace Trakx.Shrimpy.ApiClient;
 

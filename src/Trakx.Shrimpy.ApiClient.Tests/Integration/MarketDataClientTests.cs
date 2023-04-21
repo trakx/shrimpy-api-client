@@ -1,12 +1,5 @@
-using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Serilog;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Trakx.Shrimpy.ApiClient.Tests.Integration;
 
@@ -27,8 +20,8 @@ public class MarketDataClientTests : ShrimpyClientTestsBase
             try
             {
                 var tickers = await _marketDataClient.GetTickerAsync(exchange);
-                tickers.Result.Count.Should().BeGreaterThan(10);
-                var knownSymbols = tickers.Result.Select(t => t.Symbol);
+                tickers.Content.Count.Should().BeGreaterThan(10);
+                var knownSymbols = tickers.Content.Select(t => t.Symbol);
                 Logger.Information("Exchange {exchange} has tickers:" +
                                    Environment.NewLine + "{tickers}", exchange,
                     string.Join(",", knownSymbols));
@@ -45,16 +38,17 @@ public class MarketDataClientTests : ShrimpyClientTestsBase
     [Fact]
     public void ListExchanges()
     {
-            Logger.Information(string.Join(", ",
-                Enum.GetValues(typeof(Exchange)).Cast<Exchange>().Select(e => e.ToString())));
+        var exchanges = Enum.GetValues(typeof(Exchange)).Cast<Exchange>().Select(e => e.ToString());
+        Logger.Information(string.Join(", ", exchanges));
+        exchanges.Count().Should().BeGreaterThan(0);
     }
-    
+
     [Fact]
     public async Task GetTicker_should_return_all_tickers_including_OKB_from_okex()
     {
         var tickers = await _marketDataClient.GetTickerAsync(Exchange.Okex);
-        tickers.Result.Count.Should().BeGreaterThan(10);
-        var knownSymbols = tickers.Result.Select(t => t.Name).ToList();
+        tickers.Content.Count.Should().BeGreaterThan(10);
+        var knownSymbols = tickers.Content.Select(t => t.Name).ToList();
         knownSymbols.Should().Contain("OKB");
         Logger.Information(string.Join(",", knownSymbols));
     }
@@ -69,8 +63,8 @@ public class MarketDataClientTests : ShrimpyClientTestsBase
             try
             {
                 var tickers = await _marketDataClient.GetTickerAsync(exchange);
-                tickers.Result.Count.Should().BeGreaterThan(1);
-                var knownSymbols = tickers.Result.Where(t => t.Symbol == symbol).ToList();
+                tickers.Content.Count.Should().BeGreaterThan(1);
+                var knownSymbols = tickers.Content.Where(t => t.Symbol == symbol).ToList();
                 knownSymbols.Count.Should().BeLessOrEqualTo(1);
                 var ticker = knownSymbols.SingleOrDefault();
                 if (ticker is null) Log.Information("{exchange} doesn't have ticker {symbol}", exchange, symbol);
